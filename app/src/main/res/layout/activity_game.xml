@@ -6,29 +6,6 @@
     android:orientation="horizontal"
     tools:context=".GameActivity">
 
-<!--
-    <ImageView
-        android:id="@+id/aceOfSpades"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        android:maxWidth="42dp"
-        android:maxHeight="42dp"
-        android:scaleType="fitCenter"
-        android:layout_marginLeft="3dp"
-        android:src="@drawable/ace_of_spades"  />
-
-    <ImageView
-        android:id="@+id/imageView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:scaleType="fitXY"
-        android:layout_alignTop="@id/aceOfSpades"
-        android:layout_alignBottom="@id/aceOfSpades"
-        android:layout_alignLeft="@id/aceOfSpades"
-        android:layout_alignRight="@id/aceOfSpades"
-        android:src="@drawable/poker_table" />
--->
     <ImageView
         android:id="@+id/imageView1"
         android:layout_width="match_parent"
@@ -53,16 +30,40 @@
             android:layout_marginTop="80dp"
             android:gravity="center"
             tools:ignore="UselessParent">
-
+<!--
             <ImageButton
                 android:id="@+id/cardOne"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
-                android:maxWidth="42dp"
-                android:maxHeight="42dp"
+                android:maxWidth="72dp"
+                android:maxHeight="72dp"
                 android:scaleType="centerInside"
-                android:src="@drawable/ace_of_spades"  />
+                android:background="@null"
+                />
+
+            <ImageButton
+                android:id="@+id/cardTwo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:maxWidth="72dp"
+                android:maxHeight="72dp"
+                android:scaleType="centerInside"
+                android:background="@null"
+
+                />
+
+            <ImageButton
+                android:id="@+id/cardThree"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:maxWidth="72dp"
+                android:maxHeight="72dp"
+                android:scaleType="centerInside"
+                android:background="@null"
+                />-->
         </LinearLayout>
     </FrameLayout>
 
