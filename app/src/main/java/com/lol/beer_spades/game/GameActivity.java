@@ -50,15 +50,10 @@ public class GameActivity extends Activity {
             player4.add(allCards.get(i));
         }
 
-        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.playing_area);
 
         Collections.sort(player1);
 
-        for(Card card : player1){
-            int resID = getResources().getIdentifier(card.toString(), "drawable", getPackageName());
-            card.setResourceId(resID);
-            createNewImageView(resID, linearLayout, card.getId());
-        }
+        drawHand();
     }
 
     private void createNewImageView(int resId, LinearLayout linearLayout, int cardId){
@@ -69,14 +64,13 @@ public class GameActivity extends Activity {
         imageView.setMaxWidth(265);
         imageView.setAdjustViewBounds(true);
         imageView.setId(cardId);
-        //imageView.
         RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-        //lp.topMargin(10);
         imageView.setLayoutParams(lp);
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                playCard(view);;
+                playCard(view);
+                ;
             }
         });
 
@@ -111,6 +105,7 @@ public class GameActivity extends Activity {
 
     private void playCard(View view){
         Card card = getCard(view.getId());
+        removeCardView(card);
         ImageView imageView = new ImageView(this);
 
         imageView.setImageResource(card.getResourceId());
@@ -121,6 +116,9 @@ public class GameActivity extends Activity {
         imageView.setLayoutParams(lp);
         LinearLayout linearLayout = (LinearLayout) findViewById(R.id.playing_area);
         linearLayout.addView(imageView);
+
+        removeCardView(card);
+        player1.remove(card);
     }
 
     private Card getCard(int id){
@@ -131,5 +129,20 @@ public class GameActivity extends Activity {
         }
 
         return null;
+    }
+
+    private void removeCardView(Card card){
+        ImageView imageView = (ImageView) findViewById(card.getId());
+        imageView.setVisibility(View.GONE);
+    }
+
+    private void drawHand(){
+        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.hand_area);
+
+        for(Card card : player1){
+            int resID = getResources().getIdentifier(card.toString(), "drawable", getPackageName());
+            card.setResourceId(resID);
+            createNewImageView(resID, linearLayout, card.getId());
+        }
     }
 }
