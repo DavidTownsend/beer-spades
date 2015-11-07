@@ -206,7 +206,6 @@ public class GameActivity extends Activity {
     private void playAICards(List<Card> playerHand,int x_position, int y_position, RelativeLayout relativeLayout) {
         Random randomGenerator = new Random();
         Card card = aiAction.calculateNextCard(playerHand, roundCards);
-        //Card card = playerHand.get(randomGenerator.nextInt(playerHand.size()));
         card.setResourceId(getResources().getIdentifier(card.toString(), "drawable", getPackageName()));
         renderCard(card, x_position, y_position, relativeLayout);
         roundCards.add(card);
