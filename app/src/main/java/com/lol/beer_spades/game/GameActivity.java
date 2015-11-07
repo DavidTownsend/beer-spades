@@ -32,6 +32,7 @@ public class GameActivity extends Activity {
     private List<Card> player2;
     private List<Card> player3;
     private List<Card> player4;
+    private List<Card> roundCards;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +47,7 @@ public class GameActivity extends Activity {
         player2 = new ArrayList<>();
         player3 = new ArrayList<>();
         player4 = new ArrayList<>();
+        roundCards = new ArrayList<>();
 
         Collections.shuffle(allCards);
         for (int i = 0; i < 52; i++) {
@@ -74,8 +76,11 @@ public class GameActivity extends Activity {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                playCard(view);
-                ;
+                RelativeLayout linearLayout = (RelativeLayout) findViewById(R.id.playing_area);
+                // No cards in the center
+                if (linearLayout.getChildCount() == 0 || linearLayout.getVisibility() == View.GONE) {
+                    playCard(view);
+                }
             }
         });
 
@@ -110,12 +115,21 @@ public class GameActivity extends Activity {
 
     private void playCard(View view){
         Card card = getCard(view.getId());
+        roundCards.add(card);
         removeCardView(card);
-        renderCard(card, 125,200);
+        RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.playing_area);
+        relativeLayout.setClickable(true);
+        relativeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                collectRoundCards(view);
+            }
+        });
+        renderCard(card, 125, 200, relativeLayout);
 
-        playAICards(player2,0,100);
-        playAICards(player3,125,0);
-        playAICards(player4,250,100);
+        playAICards(player2,0,100,relativeLayout);
+        playAICards(player3,125,0, relativeLayout);
+        playAICards(player4, 250, 100, relativeLayout);
 
         removeCardView(card);
 
@@ -134,17 +148,18 @@ public class GameActivity extends Activity {
         p4_tricks.setText("P4 \n 0/4");
     }
 
-    private void playAICards(List<Card> playerHand, int x_position, int y_position){
+    private void playAICards(List<Card> playerHand, int x_position, int y_position, RelativeLayout relativeLayout){
         //TODO
         Random randomGenerator = new Random();
         Card card = playerHand.get(randomGenerator.nextInt(playerHand.size()));
         card.setResourceId(getResources().getIdentifier(card.toString(), "drawable", getPackageName()));
-        renderCard(card, x_position, y_position);
+        renderCard(card, x_position, y_position, relativeLayout);
+        roundCards.add(card);
         playerHand.remove(card);
     }
 
 
-    private void renderCard(Card card, int x_position, int y_position){
+    private void renderCard(Card card, int x_position, int y_position, RelativeLayout relativeLayout){
         ImageView imageView = new ImageView(this);
 
         imageView.setImageResource(card.getResourceId());
@@ -156,8 +171,16 @@ public class GameActivity extends Activity {
         lp.leftMargin = x_position;
         imageView.setLayoutParams(lp);
         RelativeLayout linearLayout = (RelativeLayout) findViewById(R.id.playing_area);
+        linearLayout.setVisibility(View.VISIBLE);
+
+        linearLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                view.setVisibility(View.GONE);
+            }
+        });
+
         linearLayout.addView(imageView);
-        //imageView.set
     }
 
     private Card getCard(int id){
@@ -183,5 +206,13 @@ public class GameActivity extends Activity {
             card.setResourceId(resID);
             createNewImageView(resID, linearLayout, card.getId());
         }
+    }
+
+    private void collectRoundCards(View view){
+        for (Card card : roundCards){
+            removeCardView(card);
+        }
+
+        roundCards.clear();
     }
 }
