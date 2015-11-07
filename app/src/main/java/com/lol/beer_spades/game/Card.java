@@ -7,18 +7,19 @@ import java.util.Objects;
  */
 public class Card implements Comparable<Card>{
     private Integer id;
-    private Enum suiteType;
+    private Enum suitType;
     private Integer cardNumber;
     private Integer resourceId;
+    private boolean selected;
 
-    public Card (Integer id, Enum suiteType, Integer cardNumber){
-        this.suiteType = suiteType;
+    public Card (Integer id, Enum suitType, Integer cardNumber){
+        this.suitType = suitType;
         this.cardNumber = cardNumber;
         this.id = id;
     }
 
     public String toString(){
-        return suiteType.toString() + cardNumber.toString();
+        return suitType.toString() + cardNumber.toString();
     }
 
     public Integer getCardNumber() {
@@ -29,12 +30,12 @@ public class Card implements Comparable<Card>{
         this.cardNumber = cardNumber;
     }
 
-    public Enum getSuiteType() {
-        return suiteType;
+    public Enum getSuitType() {
+        return suitType;
     }
 
-    public void setSuiteType(Enum suiteType) {
-        this.suiteType = suiteType;
+    public void setSuitType(Enum suitType) {
+        this.suitType = suitType;
     }
 
     public Integer getResourceId() {
@@ -55,7 +56,15 @@ public class Card implements Comparable<Card>{
 
     @Override
     public int compareTo(Card o) {
-        int rankCom = suiteType.compareTo(o.suiteType);
+        int rankCom = suitType.compareTo(o.suitType);
         return rankCom != 0 ? rankCom : o.cardNumber.compareTo(cardNumber);
+    }
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
     }
 }
