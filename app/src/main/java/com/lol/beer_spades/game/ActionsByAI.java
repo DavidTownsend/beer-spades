@@ -21,7 +21,7 @@ public class ActionsByAI
               return highestCard;
           }
 
-          return lowestCardOfThatSuit(firstCardPlayed.getSuiteType(),AIHand);
+          return lowestCardOfThatSuit(firstCardPlayed.getSuitType(),AIHand);
       }
     return lowestCardInHand(AIHand);
   }
@@ -30,7 +30,7 @@ public class ActionsByAI
     {
         for (int i=0; i < AIHand.size();i++)
         {
-            if(AIHand.get(i).getSuiteType().equals(suit))
+            if(AIHand.get(i).getSuitType().equals(suit))
             {
                 return AIHand.get(i);
             }
@@ -47,31 +47,35 @@ public class ActionsByAI
       for (int i=0; i < AIHand.size();i++)
       {
         //Just ignore spades for now for first phase
-        if(!AIHand.get(i).getSuiteType().equals(SuiteType.spades))
+        if(!AIHand.get(i).getSuitType().equals(SuitType.spades))
         {
-            if(lowestHeart == null && AIHand.get(i).getSuiteType().equals(SuiteType.hearts))
+            if(lowestHeart == null && AIHand.get(i).getSuitType().equals(SuitType.hearts))
             {
                 lowestHeart = AIHand.get(i);
             }
-            if(lowestClub == null && AIHand.get(i).getSuiteType().equals(SuiteType.clubs))
+            if(lowestClub == null && AIHand.get(i).getSuitType().equals(SuitType.clubs))
             {
                 lowestClub =  AIHand.get(i);
             }
-            if(lowestDiamond == null && AIHand.get(i).getSuiteType().equals(SuiteType.diamonds))
+            if(lowestDiamond == null && AIHand.get(i).getSuitType().equals(SuitType.diamonds))
             {
                 lowestDiamond =  AIHand.get(i);
             }
         }
       }
 
-      if (lowestHeart.getCardNumber() < lowestDiamond.getCardNumber())
+      if(lowestHeart == null)
       {
-          if(lowestHeart.getCardNumber() < lowestClub.getCardNumber())
+          //lowestHeart = new Card(1, 2, 15);
+      }
+      if (lowestHeart.getCardNumber() <= lowestDiamond.getCardNumber())
+      {
+          if(lowestHeart.getCardNumber() <= lowestClub.getCardNumber())
           {
               return lowestHeart;
           }
       }
-      else if(lowestDiamond.getCardNumber() < lowestClub.getCardNumber())
+      else if(lowestDiamond.getCardNumber() <= lowestClub.getCardNumber())
       {
           return lowestDiamond;
       }
@@ -101,11 +105,11 @@ public class ActionsByAI
       {
           //TODO: add logic for caring about spades
           //Check to see if suit type matches the first card played, if it doesnt then the card value doesnt matter.
-          if(card.getSuiteType().equals(firstCardPlayed.getSuiteType()))
+          if(card.getSuitType().equals(firstCardPlayed.getSuitType()))
           {
             for (Card cardFromAiHand:AIHand)
             {
-              if(cardFromAiHand.getSuiteType().equals(card.getSuiteType()) && cardFromAiHand.getCardNumber() > card.getCardNumber())
+              if(cardFromAiHand.getSuitType().equals(card.getSuitType()) && cardFromAiHand.getCardNumber() > card.getCardNumber())
               {
                 return cardFromAiHand;
               }
@@ -119,7 +123,7 @@ public class ActionsByAI
   {
       for (Card cardFromHand:AIHand)
       {
-          if (cardFromHand.getSuiteType().equals(card.getSuiteType()))
+          if (cardFromHand.getSuitType().equals(card.getSuitType()))
           {
               return true;
           }
