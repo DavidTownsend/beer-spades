@@ -13,10 +13,12 @@ import android.widget.RelativeLayout;
 
 import com.lol.beer_spades.R;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by davidtownsend on 11/2/15.
@@ -106,19 +108,41 @@ public class GameActivity extends Activity {
     private void playCard(View view){
         Card card = getCard(view.getId());
         removeCardView(card);
+        renderCard(card, 125,200);
+
+        playAICards(player2,0,100);
+        playAICards(player3,125,0);
+        playAICards(player4,250,100);
+
+        removeCardView(card);
+
+        player1.remove(card);
+    }
+
+    private void playAICards(List<Card> playerHand, int x_position, int y_position){
+        //TODO
+        Random randomGenerator = new Random();
+        Card card = playerHand.get(randomGenerator.nextInt(playerHand.size()));
+        card.setResourceId(getResources().getIdentifier(card.toString(), "drawable", getPackageName()));
+        renderCard(card, x_position, y_position);
+        playerHand.remove(card);
+    }
+
+
+    private void renderCard(Card card, int x_position, int y_position){
         ImageView imageView = new ImageView(this);
 
         imageView.setImageResource(card.getResourceId());
-        imageView.setMaxHeight(265);
-        imageView.setMaxWidth(265);
+        imageView.setMaxHeight(165);
+        imageView.setMaxWidth(165);
         imageView.setAdjustViewBounds(true);
         RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        lp.topMargin = y_position;
+        lp.leftMargin = x_position;
         imageView.setLayoutParams(lp);
-        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.playing_area);
+        RelativeLayout linearLayout = (RelativeLayout) findViewById(R.id.playing_area);
         linearLayout.addView(imageView);
-
-        removeCardView(card);
-        player1.remove(card);
+        //imageView.set
     }
 
     private Card getCard(int id){
