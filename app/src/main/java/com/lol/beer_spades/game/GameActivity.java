@@ -88,7 +88,7 @@ public class GameActivity extends Activity {
     }
 
     private void playCard(View view){
-        Card card = getCard(view.getId());
+        Card card = CardUtilities.getCard(allCards, view.getId());
         roundCards.add(card);
         removeCardView(card);
         RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.playing_area);
@@ -157,15 +157,6 @@ public class GameActivity extends Activity {
         linearLayout.addView(imageView);
     }
 
-    private Card getCard(int id){
-        for(Card card : allCards){
-            if(id == card.getId()){
-                return card;
-            }
-        }
-
-        return null;
-    }
 
     private void removeCardView(Card card){
         ImageView imageView = (ImageView) findViewById(card.getId());

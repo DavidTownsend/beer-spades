@@ -1,5 +1,8 @@
 package com.lol.beer_spades.game;
 
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,5 +35,31 @@ public class CardUtilities {
         suite.add(SuiteType.diamonds);
 
         return suite;
+    }
+
+    public static void setupBasicImageProperties(ImageView imageView, Card card, Integer x_position, Integer y_position){
+        imageView.setImageResource(card.getResourceId());
+        imageView.setMaxHeight(165);
+        imageView.setMaxWidth(165);
+        imageView.setAdjustViewBounds(true);
+        imageView.setId(card.getId());
+        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+
+        if(null != x_position && null != y_position) {
+            lp.topMargin = y_position;
+            lp.leftMargin = x_position;
+        }
+
+        imageView.setLayoutParams(lp);
+    }
+
+    public static Card getCard(List<Card> allCards, int id){
+        for(Card card : allCards){
+            if(id == card.getId()){
+                return card;
+            }
+        }
+
+        return null;
     }
 }
