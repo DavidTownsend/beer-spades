@@ -2,13 +2,14 @@ package com.lol.beer_spades.player;
 
 import com.lol.beer_spades.game.Card;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by davidtownsend on 11/7/15.
  */
-public class Player {
+public class Player implements Serializable {
     private List<Card> cards;
     private Integer bid;
     private Integer made;

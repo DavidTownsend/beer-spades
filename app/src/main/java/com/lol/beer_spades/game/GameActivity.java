@@ -1,6 +1,7 @@
 package com.lol.beer_spades.game;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 
 import com.lol.beer_spades.R;
 import com.lol.beer_spades.player.Player;
+import com.lol.beer_spades.scoreboard.ScoreboardActivity;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -104,9 +106,24 @@ public class GameActivity extends Activity {
                     increaseWinnersTricks(Card.pickWinner4(roundCards));
 
                     collectRoundCards(view);
+
+                    if (handOver()) {
+                        Intent i = new Intent(getBaseContext(), ScoreboardActivity.class);
+                        Bundle players = new Bundle();
+                        players.putSerializable("p1", player1);
+                        players.putSerializable("p2", player2);
+                        players.putSerializable("p3", player3);
+                        players.putSerializable("p4", player4);
+                        i.putExtras(players);
+                        startActivity(i);
+                    }
                 }
             }
         });
+    }
+
+    private boolean handOver() {
+        return player1.getCards().size() == 0;
     }
 
     private void increaseWinnersTricks(Card winningCard) {
