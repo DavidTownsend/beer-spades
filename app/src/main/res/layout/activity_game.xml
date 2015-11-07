@@ -198,7 +198,6 @@
 
     <LinearLayout
         android:id="@+id/hand_area"
-        style="?metaButtonBarStyle"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:layout_alignParentBottom="true"

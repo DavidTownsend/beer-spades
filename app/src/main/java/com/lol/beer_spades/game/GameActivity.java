@@ -2,9 +2,13 @@ package com.lol.beer_spades.game;
 
 import android.app.Activity;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
@@ -66,17 +70,33 @@ public class GameActivity extends Activity {
 
         Collections.sort(player1);
 
+        configureHandArea();
         drawInitialHand();
         configurePlayingArea();
-
         setupBidTable();
+    }
+
+    private void configureHandArea() {
+        LinearLayout handArea = (LinearLayout) findViewById(R.id.hand_area);
+        Display display = getWindowManager().getDefaultDisplay();
+
+        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ScreenUtilities.getHandAreaHeight(display));
+        lp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+        handArea.setLayoutParams(lp);
     }
 
     // Configure the center/playing area
     private void configurePlayingArea() {
-        RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.playing_area);
-        relativeLayout.setClickable(true);
-        relativeLayout.setOnClickListener(new View.OnClickListener() {
+        RelativeLayout playingArea = (RelativeLayout) findViewById(R.id.playing_area);
+        Display display = getWindowManager().getDefaultDisplay();
+        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(ScreenUtilities.getPlayAreaHeight(display), ScreenUtilities.getPlayAreaWidth(display));
+        lp.addRule(RelativeLayout.CENTER_HORIZONTAL);
+        lp.addRule(RelativeLayout.CENTER_VERTICAL);
+        playingArea.setLayoutParams(lp);
+
+        playingArea.setBackgroundColor(Color.CYAN);
+        playingArea.setClickable(true);
+        playingArea.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Card selectedCard = getSelectedCard();
@@ -94,11 +114,13 @@ public class GameActivity extends Activity {
 
     // Create a single card image
     private void createNewImageView(int resId, LinearLayout linearLayout, int cardId) {
+        Display display = getWindowManager().getDefaultDisplay();
         ImageView imageView = new ImageView(this);
 
         imageView.setImageResource(resId);
-        imageView.setMaxHeight(175);
-        imageView.setMaxWidth(175);
+        imageView.setMaxHeight(ScreenUtilities.getCardHeight(display));
+
+        imageView.setPadding(3,0,3,0);
         imageView.setAdjustViewBounds(true);
         imageView.setId(cardId);
         RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
@@ -114,20 +136,21 @@ public class GameActivity extends Activity {
                         & bidArea.getVisibility() == View.GONE) {
                     selectCard(view);
                 }
-    }
-});
+            }
+        });
 
         linearLayout.addView(imageView);
         }
 
 // On-click for the card images. Increase or decrease the card's y value to show as selected
 private void selectCard(View view) {
+    Display display = getWindowManager().getDefaultDisplay();
         Card selectedCard = CardUtilities.getCard(allCards, view.getId());
         ImageView imageView = (ImageView) findViewById(view.getId());
 
         // If this card is already selected - deselect it
         if (selectedCard.isSelected()) {
-            imageView.setY(imageView.getY() + 60);
+            imageView.setY(imageView.getY() + ScreenUtilities.getSelectedCardYIncrease(display));
             selectedCard.setSelected(false);
             return;
         }
@@ -138,7 +161,7 @@ private void selectCard(View view) {
         }
 
         selectedCard.setSelected(true);
-        imageView.setY(imageView.getY() - 60);
+        imageView.setY(imageView.getY() - ScreenUtilities.getSelectedCardYIncrease(display));
     }
 
     // Get the card from player1 that is selected
@@ -156,12 +179,12 @@ private void selectCard(View view) {
     private void playCard(Card card) {
         roundCards.add(card);
         removeCardView(card);
-        RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.playing_area);
+        RelativeLayout playArea = (RelativeLayout) findViewById(R.id.playing_area);
 
-        renderCard(card, 125, 200, relativeLayout);
-        playAICards(player2, 0, 100, relativeLayout);
-        playAICards(player3, 125, 0, relativeLayout);
-        playAICards(player4, 250, 100, relativeLayout);
+        renderCard(card, ScreenUtilities.getPlayer1XCoordinate(playArea), ScreenUtilities.getPlayer1YCoordinate(playArea), playArea);
+        playAICards(player2, ScreenUtilities.getPlayer2XCoordinate(playArea), ScreenUtilities.getPlayer2YCoordinate(playArea), playArea);
+        playAICards(player3, ScreenUtilities.getPlayer3XCoordinate(playArea), ScreenUtilities.getPlayer3YCoordinate(playArea), playArea);
+        playAICards(player4, ScreenUtilities.getPlayer4XCoordinate(playArea), ScreenUtilities.getPlayer4YCoordinate(playArea), playArea);
 
         player1.remove(card);
 
@@ -191,11 +214,11 @@ private void selectCard(View view) {
 
     // Create a card image and add it to the playing area
     private void renderCard(Card card, int x_position, int y_position, RelativeLayout relativeLayout) {
+        Display display = getWindowManager().getDefaultDisplay();
         ImageView imageView = new ImageView(this);
 
         imageView.setImageResource(card.getResourceId());
-        imageView.setMaxHeight(165);
-        imageView.setMaxWidth(165);
+        imageView.setMaxHeight(ScreenUtilities.getCardHeight(display));
         imageView.setAdjustViewBounds(true);
         RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         lp.topMargin = y_position;
