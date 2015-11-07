@@ -39,7 +39,8 @@
                 android:textColor="#F7FE2E"
                 android:textSize="50dp" />
         </TableRow>
-        <TableRow>
+        <TableRow
+            android:id="@+id/bidRow1">
             <Button
                 android:id="@+id/nilBid"
                 android:text="@string/nil"
@@ -63,9 +64,10 @@
                 android:text="@string/one"
                 android:layout_height="40dp"
                 android:layout_width="0dp"
-                android:layout_weight="1"/>
+                android:layout_weight="1" />
         </TableRow>
-        <TableRow>
+        <TableRow
+            android:id="@+id/bidRow2">
             <Button
                 android:id="@+id/twoBid"
                 android:text="@string/two"
@@ -91,7 +93,8 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"/>
         </TableRow>
-        <TableRow>
+        <TableRow
+            android:id="@+id/bidRow3">
             <Button
                 android:id="@+id/sixBid"
                 android:text="@string/six"
@@ -117,7 +120,8 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"/>
         </TableRow>
-        <TableRow>
+        <TableRow
+            android:id="@+id/bidRow4">
             <Button
                 android:id="@+id/tenBid"
                 android:text="@string/ten"

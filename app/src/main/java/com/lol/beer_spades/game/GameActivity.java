@@ -1,16 +1,21 @@
 package com.lol.beer_spades.game;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.ColorInt;
 import android.view.View;
 import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.lol.beer_spades.R;
@@ -33,6 +38,7 @@ public class GameActivity extends Activity {
     private List<Card> player3;
     private List<Card> player4;
     private List<Card> roundCards;
+    private BidType selectedBid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,13 +63,16 @@ public class GameActivity extends Activity {
             player4.add(allCards.get(i));
         }
 
-
         Collections.sort(player1);
 
         drawHand();
+
+        setupBidTable();
+
+        // TODO setup listener on submit button
     }
 
-    private void createNewImageView(int resId, LinearLayout linearLayout, int cardId){
+    private void createNewImageView(int resId, LinearLayout linearLayout, int cardId) {
         ImageView imageView = new ImageView(this);
 
         imageView.setImageResource(resId);
@@ -87,7 +96,7 @@ public class GameActivity extends Activity {
         linearLayout.addView(imageView);
     }
 
-    private void playCard(View view){
+    private void playCard(View view) {
         Card card = getCard(view.getId());
         roundCards.add(card);
         removeCardView(card);
@@ -101,8 +110,8 @@ public class GameActivity extends Activity {
         });
         renderCard(card, 125, 200, relativeLayout);
 
-        playAICards(player2,0,100,relativeLayout);
-        playAICards(player3,125,0, relativeLayout);
+        playAICards(player2, 0, 100, relativeLayout);
+        playAICards(player3, 125, 0, relativeLayout);
         playAICards(player4, 250, 100, relativeLayout);
 
         removeCardView(card);
@@ -122,7 +131,7 @@ public class GameActivity extends Activity {
         p4_tricks.setText("P4 \n 0/4");
     }
 
-    private void playAICards(List<Card> playerHand, int x_position, int y_position, RelativeLayout relativeLayout){
+    private void playAICards(List<Card> playerHand, int x_position, int y_position, RelativeLayout relativeLayout) {
         //TODO
         Random randomGenerator = new Random();
         Card card = playerHand.get(randomGenerator.nextInt(playerHand.size()));
@@ -133,7 +142,7 @@ public class GameActivity extends Activity {
     }
 
 
-    private void renderCard(Card card, int x_position, int y_position, RelativeLayout relativeLayout){
+    private void renderCard(Card card, int x_position, int y_position, RelativeLayout relativeLayout) {
         ImageView imageView = new ImageView(this);
 
         imageView.setImageResource(card.getResourceId());
@@ -157,9 +166,9 @@ public class GameActivity extends Activity {
         linearLayout.addView(imageView);
     }
 
-    private Card getCard(int id){
-        for(Card card : allCards){
-            if(id == card.getId()){
+    private Card getCard(int id) {
+        for (Card card : allCards) {
+            if (id == card.getId()) {
                 return card;
             }
         }
@@ -167,26 +176,112 @@ public class GameActivity extends Activity {
         return null;
     }
 
-    private void removeCardView(Card card){
+    private void removeCardView(Card card) {
         ImageView imageView = (ImageView) findViewById(card.getId());
         imageView.setVisibility(View.GONE);
     }
 
-    private void drawHand(){
+    private void drawHand() {
         LinearLayout linearLayout = (LinearLayout) findViewById(R.id.hand_area);
 
-        for(Card card : player1){
+        for (Card card : player1) {
             int resID = getResources().getIdentifier(card.toString(), "drawable", getPackageName());
             card.setResourceId(resID);
             createNewImageView(resID, linearLayout, card.getId());
         }
     }
 
-    private void collectRoundCards(View view){
-        for (Card card : roundCards){
+    private void collectRoundCards(View view) {
+        for (Card card : roundCards) {
             removeCardView(card);
         }
 
         roundCards.clear();
+    }
+
+    private void setupBidTable() {
+        TableLayout bidTable = (TableLayout) findViewById(R.id.bidTable);
+        bidTable.setVisibility(View.VISIBLE);
+
+        TableRow bidRow1 = (TableRow) findViewById(R.id.bidRow1);
+        for (int i = 0; i < 4; i++) {
+            Button bidButton = (Button) bidRow1.getChildAt(i);
+            bidButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (selectedBid != null) {
+                        int resID = getResources().getIdentifier(selectedBid.getButtonId(), "id", getPackageName());
+                        Button prevButton = (Button) findViewById(resID);
+                        prevButton.setBackgroundColor(Color.RED);
+                    }
+                    Button viewButton = (Button) view;
+                    viewButton.setBackgroundColor(Color.BLUE);
+                    selectedBid = BidType.findBidType(viewButton.getText().toString());
+                }
+            });
+        }
+
+        TableRow bidRow2 = (TableRow) findViewById(R.id.bidRow2);
+        for (int i = 0; i < 4; i++) {
+            Button bidButton = (Button) bidRow2.getChildAt(i);
+            bidButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (selectedBid != null) {
+                        int resID = getResources().getIdentifier(selectedBid.getButtonId(), "id", getPackageName());
+                        Button prevButton = (Button) findViewById(resID);
+                        prevButton.setBackgroundColor(Color.RED);
+                    }
+                    Button viewButton = (Button) view;
+                    viewButton.setBackgroundColor(Color.BLUE);
+                    selectedBid = BidType.findBidType(viewButton.getText().toString());
+                }
+            });
+        }
+
+        TableRow bidRow3 = (TableRow) findViewById(R.id.bidRow3);
+        for (int i = 0; i < 4; i++) {
+            Button bidButton = (Button) bidRow3.getChildAt(i);
+            bidButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (selectedBid != null) {
+                        int resID = getResources().getIdentifier(selectedBid.getButtonId(), "id", getPackageName());
+                        Button prevButton = (Button) findViewById(resID);
+                        prevButton.setBackgroundColor(Color.RED);
+                    }
+                    Button viewButton = (Button) view;
+                    viewButton.setBackgroundColor(Color.BLUE);
+                    selectedBid = BidType.findBidType(viewButton.getText().toString());
+                }
+            });
+        }
+
+        TableRow bidRow4 = (TableRow) findViewById(R.id.bidRow4);
+        for (int i = 0; i < 4; i++) {
+            Button bidButton = (Button) bidRow4.getChildAt(i);
+            bidButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (selectedBid != null) {
+                        int resID = getResources().getIdentifier(selectedBid.getButtonId(), "id", getPackageName());
+                        Button prevButton = (Button) findViewById(resID);
+                        prevButton.setBackgroundColor(Color.RED);
+                    }
+                    Button viewButton = (Button) view;
+                    viewButton.setBackgroundColor(Color.BLUE);
+                    selectedBid = BidType.findBidType(viewButton.getText().toString());
+                }
+            });
+        }
+
+        Button confirmButton = (Button) findViewById(R.id.submitBid);
+        confirmButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                TableLayout bidTableOnConfirm = (TableLayout) findViewById(R.id.bidTable);
+                bidTableOnConfirm.setVisibility(View.GONE);
+            }
+        });
     }
 }
