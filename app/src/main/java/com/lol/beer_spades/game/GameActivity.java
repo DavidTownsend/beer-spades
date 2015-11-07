@@ -74,8 +74,11 @@ public class GameActivity extends Activity {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                playCard(view);
-                ;
+                RelativeLayout linearLayout = (RelativeLayout) findViewById(R.id.playing_area);
+                // No cards in the center
+                if (linearLayout.getChildCount() == 0 || linearLayout.getVisibility() == View.GONE) {
+                    playCard(view);
+                }
             }
         });
 
@@ -115,7 +118,7 @@ public class GameActivity extends Activity {
 
         playAICards(player2,0,100);
         playAICards(player3,125,0);
-        playAICards(player4,250,100);
+        playAICards(player4, 250, 100);
 
         removeCardView(card);
 
@@ -156,6 +159,15 @@ public class GameActivity extends Activity {
         lp.leftMargin = x_position;
         imageView.setLayoutParams(lp);
         RelativeLayout linearLayout = (RelativeLayout) findViewById(R.id.playing_area);
+        linearLayout.setVisibility(View.VISIBLE);
+
+        linearLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                view.setVisibility(View.GONE);
+            }
+        });
+
         linearLayout.addView(imageView);
         //imageView.set
     }
