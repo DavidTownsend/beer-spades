@@ -41,7 +41,7 @@ public class GameActivity extends Activity {
 
         setContentView(R.layout.activity_game);
 
-        allCards = generateCards();
+        allCards = CardUtilities.generateCards();
 
         player1 = new ArrayList<>();
         player2 = new ArrayList<>();
@@ -85,32 +85,6 @@ public class GameActivity extends Activity {
         });
 
         linearLayout.addView(imageView);
-    }
-
-    private List<Card> generateCards() {
-        List<Card> deck = new ArrayList<Card>();
-        List<SuiteType> suites = retrieveSuite();
-        Integer id = 0;
-
-        for(int j = 0; j < 4; j++) {
-            for (int i = 2; i <= 14; i++) {
-                deck.add(new Card(id, suites.get(j), i));
-                id ++;
-            }
-        }
-
-        return deck;
-    }
-
-    private List<SuiteType> retrieveSuite(){
-        List<SuiteType> suite = new ArrayList<SuiteType>();
-
-        suite.add(SuiteType.clubs);
-        suite.add(SuiteType.hearts);
-        suite.add(SuiteType.spades);
-        suite.add(SuiteType.diamonds);
-
-        return suite;
     }
 
     private void playCard(View view){
