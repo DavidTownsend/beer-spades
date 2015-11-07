@@ -11,6 +11,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.lol.beer_spades.R;
 
@@ -64,8 +65,8 @@ public class GameActivity extends Activity {
         ImageView imageView = new ImageView(this);
 
         imageView.setImageResource(resId);
-        imageView.setMaxHeight(265);
-        imageView.setMaxWidth(265);
+        imageView.setMaxHeight(175);
+        imageView.setMaxWidth(175);
         imageView.setAdjustViewBounds(true);
         imageView.setId(cardId);
         RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
@@ -119,6 +120,18 @@ public class GameActivity extends Activity {
         removeCardView(card);
 
         player1.remove(card);
+
+        TextView p1_tricks = (TextView) findViewById(R.id.p1_tricks);
+        p1_tricks.setText("P1 \n 0/4");
+
+        TextView p2_tricks = (TextView) findViewById(R.id.p2_tricks);
+        p2_tricks.setText("P2 \n 0/4");
+
+        TextView p3_tricks = (TextView) findViewById(R.id.p3_tricks);
+        p3_tricks.setText("P3 \n 0/4");
+
+        TextView p4_tricks = (TextView) findViewById(R.id.p4_tricks);
+        p4_tricks.setText("P4 \n 0/4");
     }
 
     private void playAICards(List<Card> playerHand, int x_position, int y_position){
