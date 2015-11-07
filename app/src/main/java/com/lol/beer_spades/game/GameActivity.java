@@ -114,14 +114,14 @@ public class GameActivity extends Activity {
                         & bidArea.getVisibility() == View.GONE) {
                     selectCard(view);
                 }
-            }
-        });
+    }
+});
 
         linearLayout.addView(imageView);
-    }
+        }
 
-    // On-click for the card images. Increase or decrease the card's y value to show as selected
-    private void selectCard(View view) {
+// On-click for the card images. Increase or decrease the card's y value to show as selected
+private void selectCard(View view) {
         Card selectedCard = CardUtilities.getCard(allCards, view.getId());
         ImageView imageView = (ImageView) findViewById(view.getId());
 
