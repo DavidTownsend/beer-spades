@@ -20,6 +20,15 @@ public class Player {
         made = 0;
     }
 
+    public Player (String playerName) {
+        this();
+        this.playerName = playerName;
+    }
+
+    public void increaseMade() {
+        made += 1;
+    }
+
     public Integer getBid() {
         return bid;
     }
