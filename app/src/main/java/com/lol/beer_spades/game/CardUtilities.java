@@ -13,12 +13,12 @@ public class CardUtilities {
 
     public static List<Card> generateCards() {
         List<Card> deck = new ArrayList<Card>();
-        List<SuiteType> suites = retrieveSuite();
+        List<SuitType> suits = retrieveSuit();
         Integer id = 0;
 
         for(int j = 0; j < 4; j++) {
             for (int i = 2; i <= 14; i++) {
-                deck.add(new Card(id, suites.get(j), i));
+                deck.add(new Card(id, suits.get(j), i));
                 id ++;
             }
         }
@@ -26,13 +26,13 @@ public class CardUtilities {
         return deck;
     }
 
-    private static List<SuiteType> retrieveSuite(){
-        List<SuiteType> suite = new ArrayList<SuiteType>();
+    private static List<SuitType> retrieveSuit(){
+        List<SuitType> suite = new ArrayList<SuitType>();
 
-        suite.add(SuiteType.clubs);
-        suite.add(SuiteType.hearts);
-        suite.add(SuiteType.spades);
-        suite.add(SuiteType.diamonds);
+        suite.add(SuitType.clubs);
+        suite.add(SuitType.hearts);
+        suite.add(SuitType.spades);
+        suite.add(SuitType.diamonds);
 
         return suite;
     }
