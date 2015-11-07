@@ -41,6 +41,7 @@ public class GameActivity extends Activity {
     private BidType selectedBid;
 
     @Override
+    // Initialization
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -65,13 +66,33 @@ public class GameActivity extends Activity {
 
         Collections.sort(player1);
 
-        drawHand();
+        drawInitialHand();
+        configurePlayingArea();
 
         setupBidTable();
-
-        // TODO setup listener on submit button
     }
 
+    // Configure the center/playing area
+    private void configurePlayingArea() {
+        RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.playing_area);
+        relativeLayout.setClickable(true);
+        relativeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Card selectedCard = getSelectedCard();
+
+                // If a card was selected - play it
+                if (selectedCard != null) {
+                    playCard(selectedCard);
+                    // If there are cards in the center
+                } else if (roundCards != null && roundCards.size() != 0) {
+                    collectRoundCards(view);
+                }
+            }
+        });
+    }
+
+    // Create a single card image
     private void createNewImageView(int resId, LinearLayout linearLayout, int cardId) {
         ImageView imageView = new ImageView(this);
 
@@ -88,7 +109,7 @@ public class GameActivity extends Activity {
                 RelativeLayout linearLayout = (RelativeLayout) findViewById(R.id.playing_area);
                 // No cards in the center
                 if (linearLayout.getChildCount() == 0 || linearLayout.getVisibility() == View.GONE) {
-                    playCard(view);
+                    selectCard(view);
                 }
             }
         });
@@ -96,25 +117,48 @@ public class GameActivity extends Activity {
         linearLayout.addView(imageView);
     }
 
-    private void playCard(View view) {
-        Card card = getCard(view.getId());
+    // On-click for the card images. Increase or decrease the card's y value to show as selected
+    private void selectCard(View view) {
+        Card selectedCard = CardUtilities.getCard(allCards, view.getId());
+        ImageView imageView = (ImageView) findViewById(view.getId());
+
+        // If this card is already selected - deselect it
+        if (selectedCard.isSelected()) {
+            imageView.setY(imageView.getY() + 60);
+            selectedCard.setSelected(false);
+            return;
+        }
+
+        // Another card is already selected
+        if (getSelectedCard() != null) {
+            return;
+        }
+
+        selectedCard.setSelected(true);
+        imageView.setY(imageView.getY() - 60);
+    }
+
+    // Get the card from player1 that is selected
+    private Card getSelectedCard() {
+        for (Card card : player1) {
+            if (card.isSelected()) {
+                return card;
+            }
+        }
+
+        return null;
+    }
+
+    // Add the player1 card to the roundCards and playing area
+    private void playCard(Card card) {
         roundCards.add(card);
         removeCardView(card);
         RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.playing_area);
-        relativeLayout.setClickable(true);
-        relativeLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                collectRoundCards(view);
-            }
-        });
-        renderCard(card, 125, 200, relativeLayout);
 
+        renderCard(card, 125, 200, relativeLayout);
         playAICards(player2, 0, 100, relativeLayout);
         playAICards(player3, 125, 0, relativeLayout);
         playAICards(player4, 250, 100, relativeLayout);
-
-        removeCardView(card);
 
         player1.remove(card);
 
@@ -131,6 +175,7 @@ public class GameActivity extends Activity {
         p4_tricks.setText("P4 \n 0/4");
     }
 
+    // Add a random AI card to the roundCards and playing area
     private void playAICards(List<Card> playerHand, int x_position, int y_position, RelativeLayout relativeLayout) {
         //TODO
         Random randomGenerator = new Random();
@@ -141,7 +186,7 @@ public class GameActivity extends Activity {
         playerHand.remove(card);
     }
 
-
+    // Create a card image and add it to the playing area
     private void renderCard(Card card, int x_position, int y_position, RelativeLayout relativeLayout) {
         ImageView imageView = new ImageView(this);
 
@@ -155,33 +200,20 @@ public class GameActivity extends Activity {
         imageView.setLayoutParams(lp);
         RelativeLayout linearLayout = (RelativeLayout) findViewById(R.id.playing_area);
         linearLayout.setVisibility(View.VISIBLE);
-
-        linearLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                view.setVisibility(View.GONE);
-            }
-        });
-
         linearLayout.addView(imageView);
     }
 
-    private Card getCard(int id) {
-        for (Card card : allCards) {
-            if (id == card.getId()) {
-                return card;
-            }
-        }
-
-        return null;
-    }
-
+    // Hide the card's image
     private void removeCardView(Card card) {
         ImageView imageView = (ImageView) findViewById(card.getId());
-        imageView.setVisibility(View.GONE);
+
+        if (imageView != null) {
+            imageView.setVisibility(View.GONE);
+        }
     }
 
-    private void drawHand() {
+    // Create the card images in player1's hand area
+    private void drawInitialHand() {
         LinearLayout linearLayout = (LinearLayout) findViewById(R.id.hand_area);
 
         for (Card card : player1) {
@@ -191,11 +223,9 @@ public class GameActivity extends Activity {
         }
     }
 
-    private void collectRoundCards(View view) {
-        for (Card card : roundCards) {
-            removeCardView(card);
-        }
-
+    // Clears the center/playing area and the cards in it
+    private void collectRoundCards(View playingAreaView) {
+        ((RelativeLayout) playingAreaView).removeAllViews();
         roundCards.clear();
     }
 
