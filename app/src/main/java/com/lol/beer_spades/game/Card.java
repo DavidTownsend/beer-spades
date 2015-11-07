@@ -60,7 +60,6 @@ public class Card implements Comparable<Card>{
     public int compareTo(Card o) {
         // -3 to 3, 0 if the same suit
         int rankCom = suitType.compareTo(o.suitType);
-
         // if not same suit return rankCom
         // else compare cardNumber
         return rankCom != 0 ? rankCom : cardNumber.compareTo(o.cardNumber);

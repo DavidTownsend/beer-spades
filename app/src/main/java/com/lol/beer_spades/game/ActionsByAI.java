@@ -7,18 +7,21 @@ import java.util.List;
  */
 public class ActionsByAI
 {
+    Card highestCardOnTable;
+    Card firstCardPlayed;
 
-  protected Card calculateNextCard(List<Card> AIHand, List<Card> playedCards, List<Card> cardsOnTable)
+  protected Card calculateNextCard(List<Card> AIHand,  List<Card> cardsOnTable)
   {
       //First card in array is expected to be the first card played.
-      Card firstCardPlayed = cardsOnTable.get(0);
+      highestCardOnTable = cardsOnTable.get(0);
+      firstCardPlayed = cardsOnTable.get(0);
 
-      if(haveSameSuit(firstCardPlayed, AIHand))
+
+      if(haveSameSuit(AIHand))
       {
-          Card highestCard = haveHigherCard(firstCardPlayed,AIHand,cardsOnTable);
-          if(highestCard != null)
+          if(haveHigherCard(AIHand,cardsOnTable))
           {
-              return highestCard;
+              return highestCardOnTable;
           }
 
           return lowestCardOfThatSuit(firstCardPlayed.getSuitType(),AIHand);
@@ -37,50 +40,38 @@ public class ActionsByAI
         }
         return null;
     }
+
   private Card lowestCardInHand(List<Card> AIHand)
   {
-      Card lowestHeart = null;
-      Card lowestDiamond = null;
-      Card lowestClub = null;
+      Card lowestCard = null;
 
-      //Find the lowest card for each suit
+      //Find the lowest card
       for (int i=0; i < AIHand.size();i++)
       {
         //Just ignore spades for now for first phase
         if(!AIHand.get(i).getSuitType().equals(SuitType.spades))
         {
-            if(lowestHeart == null && AIHand.get(i).getSuitType().equals(SuitType.hearts))
-            {
-                lowestHeart = AIHand.get(i);
-            }
-            if(lowestClub == null && AIHand.get(i).getSuitType().equals(SuitType.clubs))
-            {
-                lowestClub =  AIHand.get(i);
-            }
-            if(lowestDiamond == null && AIHand.get(i).getSuitType().equals(SuitType.diamonds))
-            {
-                lowestDiamond =  AIHand.get(i);
-            }
+          if(lowestCard == null)
+          {
+              lowestCard = AIHand.get(i);
+          }
+          else
+          {
+              if(AIHand.get(i).getCardNumber() <=lowestCard.getCardNumber())
+              {
+                  lowestCard = AIHand.get(i);
+              }
+          }
+
         }
       }
 
-      if(lowestHeart == null)
-      {
-          //lowestHeart = new Card(1, 2, 15);
-      }
-      if (lowestHeart.getCardNumber() <= lowestDiamond.getCardNumber())
-      {
-          if(lowestHeart.getCardNumber() <= lowestClub.getCardNumber())
-          {
-              return lowestHeart;
-          }
-      }
-      else if(lowestDiamond.getCardNumber() <= lowestClub.getCardNumber())
-      {
-          return lowestDiamond;
-      }
-
-      return lowestClub;
+      //If still null this means the player only has Spades left so pick a spade.
+     if(lowestCard == null)
+     {
+         lowestCard = AIHand.get(0);
+     }
+      return lowestCard;
   }
 //TODO: this method will be implemented later to calculate the chance of winning the hand.
 /*    private  boolean canIWin(Card firstCardPlayed,List<Card> AIHand,List<Card> cardsOnTable)
@@ -99,31 +90,28 @@ public class ActionsByAI
         return true;
     }*/
 
-  private Card haveHigherCard(Card firstCardPlayed,List<Card> AIHand, List<Card> cardsOnTable)
+  private boolean haveHigherCard(List<Card> AIHand, List<Card> cardsOnTable)
   {
-      for (Card card:cardsOnTable)
-      {
+
           //TODO: add logic for caring about spades
-          //Check to see if suit type matches the first card played, if it doesnt then the card value doesnt matter.
-          if(card.getSuitType().equals(firstCardPlayed.getSuitType()))
-          {
+          //Check to see if suit type matches the first card played, if it doesnt then there is no need to compare your hand to this card.
             for (Card cardFromAiHand:AIHand)
             {
-              if(cardFromAiHand.getSuitType().equals(card.getSuitType()) && cardFromAiHand.getCardNumber() > card.getCardNumber())
+              if(cardFromAiHand.getSuitType().equals(firstCardPlayed.getSuitType()) && cardFromAiHand.getCardNumber() > highestCardOnTable.getCardNumber())
               {
-                return cardFromAiHand;
+                  highestCardOnTable = cardFromAiHand;
+                  return true;
               }
             }
-          }
-      }
-      return null;
+
+      return false;
   }
 
-  private boolean haveSameSuit(Card card, List<Card> AIHand)
+  private boolean haveSameSuit(List<Card> AIHand)
   {
       for (Card cardFromHand:AIHand)
       {
-          if (cardFromHand.getSuitType().equals(card.getSuitType()))
+          if (cardFromHand.getSuitType().equals(firstCardPlayed.getSuitType()))
           {
               return true;
           }
