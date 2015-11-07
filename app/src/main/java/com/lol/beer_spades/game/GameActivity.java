@@ -50,18 +50,29 @@ public class GameActivity extends Activity {
 
         allCards = CardUtilities.generateCards();
 
-        player1 = new Player();
-        player2 = new Player();
-        player3 = new Player();
-        player4 = new Player();
+        player1 = new Player("Yoda");
+        player2 = new Player("Luke");
+        player3 = new Player("Anikan");
+        player4 = new Player("Ja Ja");
         roundCards = new ArrayList<>();
 
         Collections.shuffle(allCards);
         for (int i = 0; i < 52; i++) {
-            player1.getCards().add(allCards.get(i++));
-            player2.getCards().add(allCards.get(i++));
-            player3.getCards().add(allCards.get(i++));
-            player4.getCards().add(allCards.get(i));
+            Card card1 = allCards.get(i++);
+            card1.setPlayerName(player1.getPlayerName());
+            player1.getCards().add(card1);
+
+            Card card2 = allCards.get(i++);
+            card2.setPlayerName(player2.getPlayerName());
+            player2.getCards().add(card2);
+
+            Card card3 = allCards.get(i++);
+            card3.setPlayerName(player3.getPlayerName());
+            player3.getCards().add(card3);
+
+            Card card4 = allCards.get(i);
+            card4.setPlayerName(player4.getPlayerName());
+            player4.getCards().add(card4);
         }
         Collections.sort(player1.getCards());
         Collections.sort(player2.getCards());
