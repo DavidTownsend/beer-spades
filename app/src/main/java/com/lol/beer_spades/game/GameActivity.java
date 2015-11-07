@@ -15,6 +15,8 @@ import android.widget.TextView;
 import com.lol.beer_spades.R;
 import com.lol.beer_spades.player.Player;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -84,10 +86,28 @@ public class GameActivity extends Activity {
                     playCard(selectedCard);
                     // If there are cards in the center
                 } else if (roundCards != null && roundCards.size() != 0) {
+                    increaseWinnersTricks(Card.pickWinner4(roundCards));
+
                     collectRoundCards(view);
                 }
             }
         });
+    }
+
+    private void increaseWinnersTricks(Card winningCard) {
+        if (StringUtils.equalsIgnoreCase(winningCard.getPlayerName(), player1.getPlayerName())) {
+            player1.increaseMade();
+            updateP1BidsView();
+        } else if (StringUtils.equalsIgnoreCase(winningCard.getPlayerName(), player2.getPlayerName())) {
+            player2.increaseMade();
+            updateP2BidsView();
+        } else if (StringUtils.equalsIgnoreCase(winningCard.getPlayerName(), player3.getPlayerName())) {
+            player3.increaseMade();
+            updateP3BidsView();
+        } else {
+            player4.increaseMade();
+            updateP4BidsView();
+        }
     }
 
     // Create a single card image
@@ -116,10 +136,10 @@ public class GameActivity extends Activity {
         });
 
         linearLayout.addView(imageView);
-        }
+    }
 
-// On-click for the card images. Increase or decrease the card's y value to show as selected
-private void selectCard(View view) {
+    // On-click for the card images. Increase or decrease the card's y value to show as selected
+    private void selectCard(View view) {
         Card selectedCard = CardUtilities.getCard(allCards, view.getId());
         ImageView imageView = (ImageView) findViewById(view.getId());
 
@@ -274,16 +294,29 @@ private void selectCard(View view) {
     }
 
     private void updateBidsView(){
+        updateP1BidsView();
+        updateP2BidsView();
+        updateP3BidsView();
+        updateP4BidsView();
+    }
+
+    private void updateP1BidsView() {
         TextView p1_tricks = (TextView) findViewById(R.id.p1_tricks);
-        p1_tricks.setText("P1 \n " + player1.getMade() + "/" + player1.getBid().toString());
+        p1_tricks.setText(player1.getPlayerName() + "\n" + player1.getMade() + "/" + player1.getBid().toString());
+    }
 
+    private void updateP2BidsView() {
         TextView p2_tricks = (TextView) findViewById(R.id.p2_tricks);
-        p2_tricks.setText("P2 \n " + player2.getMade() + "/" + player2.getBid().toString());
+        p2_tricks.setText(player2.getPlayerName() + "\n" + player2.getMade() + "/" + player2.getBid().toString());
+    }
 
+    private void updateP3BidsView() {
         TextView p3_tricks = (TextView) findViewById(R.id.p3_tricks);
-        p3_tricks.setText("P3 \n " + player3.getMade() + "/" + player3.getBid().toString());
+        p3_tricks.setText(player3.getPlayerName() + "\n" + player3.getMade() + "/" + player3.getBid().toString());
+    }
 
+    private void updateP4BidsView() {
         TextView p4_tricks = (TextView) findViewById(R.id.p4_tricks);
-        p4_tricks.setText("P4 \n " + player4.getMade() + "/" + player4.getBid().toString());
+        p4_tricks.setText(player4.getPlayerName() + "\n" + player4.getMade() + "/" + player4.getBid().toString());
     }
 }
