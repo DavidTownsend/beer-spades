@@ -10,6 +10,7 @@ public class Card implements Comparable<Card>{
     private Enum suiteType;
     private Integer cardNumber;
     private Integer resourceId;
+    private boolean selected;
 
     public Card (Integer id, Enum suiteType, Integer cardNumber){
         this.suiteType = suiteType;
@@ -57,5 +58,13 @@ public class Card implements Comparable<Card>{
     public int compareTo(Card o) {
         int rankCom = suiteType.compareTo(o.suiteType);
         return rankCom != 0 ? rankCom : o.cardNumber.compareTo(cardNumber);
+    }
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
     }
 }
