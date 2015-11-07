@@ -26,6 +26,8 @@ import java.util.Random;
  */
 public class GameActivity extends Activity {
 
+    private static final String TAG = GameActivity.class.getSimpleName();
+
     private List<Card> allCards;
     private List<Card> player1;
     private List<Card> player2;
@@ -100,19 +102,22 @@ public class GameActivity extends Activity {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                RelativeLayout linearLayout = (RelativeLayout) findViewById(R.id.playing_area);
-                // No cards in the center
-                if (linearLayout.getChildCount() == 0 || linearLayout.getVisibility() == View.GONE) {
+                RelativeLayout playingArea = (RelativeLayout) findViewById(R.id.playing_area);
+                TableLayout bidArea = (TableLayout) findViewById(R.id.bidTable);
+
+                // No cards in the center and bid selection isn't viewable
+                if ((playingArea.getChildCount() == 0 || playingArea.getVisibility() == View.GONE)
+                        & bidArea.getVisibility() == View.GONE) {
                     selectCard(view);
                 }
-            }
-        });
+    }
+});
 
         linearLayout.addView(imageView);
-    }
+        }
 
-    // On-click for the card images. Increase or decrease the card's y value to show as selected
-    private void selectCard(View view) {
+// On-click for the card images. Increase or decrease the card's y value to show as selected
+private void selectCard(View view) {
         Card selectedCard = CardUtilities.getCard(allCards, view.getId());
         ImageView imageView = (ImageView) findViewById(view.getId());
 
