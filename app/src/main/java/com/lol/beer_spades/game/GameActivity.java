@@ -32,6 +32,8 @@ import java.util.Random;
  */
 public class GameActivity extends Activity {
 
+    private static final String TAG = GameActivity.class.getSimpleName();
+
     private List<Card> allCards;
     private List<Card> player1;
     private List<Card> player2;
