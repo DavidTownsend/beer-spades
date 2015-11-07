@@ -28,6 +28,7 @@ public class GameActivity extends Activity {
 
     private static final String TAG = GameActivity.class.getSimpleName();
 
+    ActionsByAI  aiAction;
     private List<Card> allCards;
     private List<Card> player1;
     private List<Card> player2;
@@ -61,7 +62,11 @@ public class GameActivity extends Activity {
         }
 
         Collections.sort(player1);
+        Collections.sort(player2);
+        Collections.sort(player3);
+        Collections.sort(player4);
 
+        aiAction = new ActionsByAI();
         drawInitialHand();
         configurePlayingArea();
 
@@ -110,8 +115,8 @@ public class GameActivity extends Activity {
                         & bidArea.getVisibility() == View.GONE) {
                     selectCard(view);
                 }
-    }
-});
+            }
+        });
 
         linearLayout.addView(imageView);
         }
@@ -155,9 +160,9 @@ private void selectCard(View view) {
         RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.playing_area);
 
         renderCard(card, 125, 200, relativeLayout);
-        playAICards(player2, 0, 100, relativeLayout);
-        playAICards(player3, 125, 0, relativeLayout);
-        playAICards(player4, 250, 100, relativeLayout);
+        playAICards(player2,roundCards, 0, 100, relativeLayout);
+        playAICards(player3,roundCards,125, 0, relativeLayout);
+        playAICards(player4,roundCards,250, 100, relativeLayout);
 
         player1.remove(card);
 
@@ -175,10 +180,10 @@ private void selectCard(View view) {
     }
 
     // Add a random AI card to the roundCards and playing area
-    private void playAICards(List<Card> playerHand, int x_position, int y_position, RelativeLayout relativeLayout) {
-        //TODO
+    private void playAICards(List<Card> playerHand,List<Card> roundCards, int x_position, int y_position, RelativeLayout relativeLayout) {
         Random randomGenerator = new Random();
-        Card card = playerHand.get(randomGenerator.nextInt(playerHand.size()));
+        Card card = aiAction.calculateNextCard(playerHand, roundCards);
+        //Card card = playerHand.get(randomGenerator.nextInt(playerHand.size()));
         card.setResourceId(getResources().getIdentifier(card.toString(), "drawable", getPackageName()));
         renderCard(card, x_position, y_position, relativeLayout);
         roundCards.add(card);

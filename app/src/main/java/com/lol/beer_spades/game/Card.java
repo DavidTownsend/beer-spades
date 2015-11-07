@@ -57,7 +57,7 @@ public class Card implements Comparable<Card>{
     @Override
     public int compareTo(Card o) {
         int rankCom = suitType.compareTo(o.suitType);
-        return rankCom != 0 ? rankCom : o.cardNumber.compareTo(cardNumber);
+        return rankCom != 0 ? rankCom : cardNumber.compareTo(o.cardNumber);
     }
 
     public boolean isSelected() {
