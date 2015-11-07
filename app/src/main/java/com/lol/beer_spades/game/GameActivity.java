@@ -163,17 +163,7 @@ private void selectCard(View view) {
 
         player1.getCards().remove(card);
 
-        TextView p1_tricks = (TextView) findViewById(R.id.p1_tricks);
-        p1_tricks.setText("P1 \n 0/4");
-
-        TextView p2_tricks = (TextView) findViewById(R.id.p2_tricks);
-        p2_tricks.setText("P2 \n 0/" + player2.getBid().toString());
-
-        TextView p3_tricks = (TextView) findViewById(R.id.p3_tricks);
-        p3_tricks.setText("P3 \n 0/"+ player3.getBid().toString());
-
-        TextView p4_tricks = (TextView) findViewById(R.id.p4_tricks);
-        p4_tricks.setText("P4 \n 0/"+ player4.getBid().toString());
+        updateBidsView();
     }
 
     // Add a random AI card to the roundCards and playing area
@@ -252,6 +242,8 @@ private void selectCard(View view) {
             public void onClick(View view) {
                 TableLayout bidTableOnConfirm = (TableLayout) findViewById(R.id.bidTable);
                 bidTableOnConfirm.setVisibility(View.GONE);
+                player1.setBid(selectedBid.getValue());
+                updateBidsView();
             }
         });
     }
@@ -279,5 +271,19 @@ private void selectCard(View view) {
         BiddingEngine.setBid(player2);
         BiddingEngine.setBid(player3);
         BiddingEngine.setBid(player4);
+    }
+
+    private void updateBidsView(){
+        TextView p1_tricks = (TextView) findViewById(R.id.p1_tricks);
+        p1_tricks.setText("P1 \n " + player1.getMade() + "/" + player1.getBid().toString());
+
+        TextView p2_tricks = (TextView) findViewById(R.id.p2_tricks);
+        p2_tricks.setText("P2 \n " + player2.getMade() + "/" + player2.getBid().toString());
+
+        TextView p3_tricks = (TextView) findViewById(R.id.p3_tricks);
+        p3_tricks.setText("P3 \n " + player3.getMade() + "/" + player3.getBid().toString());
+
+        TextView p4_tricks = (TextView) findViewById(R.id.p4_tricks);
+        p4_tricks.setText("P4 \n " + player4.getMade() + "/" + player4.getBid().toString());
     }
 }
