@@ -17,6 +17,7 @@ public class ActionsByAI
 
       if(cardsOnTable == null || cardsOnTable.isEmpty())
       {
+          highestCardOnTable = null;
           return playHighestCardInHand(AIHand);
       }
       else{
