@@ -13,6 +13,7 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.lol.beer_spades.R;
+import com.lol.beer_spades.player.Player;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -29,10 +30,10 @@ public class GameActivity extends Activity {
     private static final String TAG = GameActivity.class.getSimpleName();
 
     private List<Card> allCards;
-    private List<Card> player1;
-    private List<Card> player2;
-    private List<Card> player3;
-    private List<Card> player4;
+    private Player player1;
+    private Player player2;
+    private Player player3;
+    private Player player4;
     private List<Card> roundCards;
     private BidType selectedBid;
 
@@ -46,24 +47,25 @@ public class GameActivity extends Activity {
 
         allCards = CardUtilities.generateCards();
 
-        player1 = new ArrayList<>();
-        player2 = new ArrayList<>();
-        player3 = new ArrayList<>();
-        player4 = new ArrayList<>();
+        player1 = new Player();
+        player2 = new Player();
+        player3 = new Player();
+        player4 = new Player();
         roundCards = new ArrayList<>();
 
         Collections.shuffle(allCards);
         for (int i = 0; i < 52; i++) {
-            player1.add(allCards.get(i++));
-            player2.add(allCards.get(i++));
-            player3.add(allCards.get(i++));
-            player4.add(allCards.get(i));
+            player1.getCards().add(allCards.get(i++));
+            player2.getCards().add(allCards.get(i++));
+            player3.getCards().add(allCards.get(i++));
+            player4.getCards().add(allCards.get(i));
         }
 
-        Collections.sort(player1);
+        Collections.sort(player1.getCards());
 
         drawInitialHand();
         configurePlayingArea();
+        setAIBids();
 
         setupBidTable();
     }
@@ -110,8 +112,8 @@ public class GameActivity extends Activity {
                         & bidArea.getVisibility() == View.GONE) {
                     selectCard(view);
                 }
-    }
-});
+            }
+        });
 
         linearLayout.addView(imageView);
         }
@@ -139,7 +141,7 @@ private void selectCard(View view) {
 
     // Get the card from player1 that is selected
     private Card getSelectedCard() {
-        for (Card card : player1) {
+        for (Card card : player1.getCards()) {
             if (card.isSelected()) {
                 return card;
             }
@@ -155,23 +157,23 @@ private void selectCard(View view) {
         RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.playing_area);
 
         renderCard(card, 125, 200, relativeLayout);
-        playAICards(player2, 0, 100, relativeLayout);
-        playAICards(player3, 125, 0, relativeLayout);
-        playAICards(player4, 250, 100, relativeLayout);
+        playAICards(player2.getCards(), 0, 100, relativeLayout);
+        playAICards(player3.getCards(), 125, 0, relativeLayout);
+        playAICards(player4.getCards(), 250, 100, relativeLayout);
 
-        player1.remove(card);
+        player1.getCards().remove(card);
 
         TextView p1_tricks = (TextView) findViewById(R.id.p1_tricks);
         p1_tricks.setText("P1 \n 0/4");
 
         TextView p2_tricks = (TextView) findViewById(R.id.p2_tricks);
-        p2_tricks.setText("P2 \n 0/4");
+        p2_tricks.setText("P2 \n 0/" + player2.getBid().toString());
 
         TextView p3_tricks = (TextView) findViewById(R.id.p3_tricks);
-        p3_tricks.setText("P3 \n 0/4");
+        p3_tricks.setText("P3 \n 0/"+ player3.getBid().toString());
 
         TextView p4_tricks = (TextView) findViewById(R.id.p4_tricks);
-        p4_tricks.setText("P4 \n 0/4");
+        p4_tricks.setText("P4 \n 0/"+ player4.getBid().toString());
     }
 
     // Add a random AI card to the roundCards and playing area
@@ -215,7 +217,7 @@ private void selectCard(View view) {
     private void drawInitialHand() {
         LinearLayout linearLayout = (LinearLayout) findViewById(R.id.hand_area);
 
-        for (Card card : player1) {
+        for (Card card : player1.getCards()) {
             int resID = getResources().getIdentifier(card.toString(), "drawable", getPackageName());
             card.setResourceId(resID);
             createNewImageView(resID, linearLayout, card.getId());
@@ -271,5 +273,11 @@ private void selectCard(View view) {
                 }
             });
         }
+    }
+
+    private void setAIBids(){
+        BiddingEngine.setBid(player2);
+        BiddingEngine.setBid(player3);
+        BiddingEngine.setBid(player4);
     }
 }
