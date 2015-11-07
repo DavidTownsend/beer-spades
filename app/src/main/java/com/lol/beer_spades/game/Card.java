@@ -6,13 +6,15 @@ import java.util.Objects;
  * Created by davidtownsend on 11/5/15.
  */
 public class Card implements Comparable<Card>{
+    private Integer id;
     private Enum suiteType;
     private Integer cardNumber;
     private Integer resourceId;
 
-    public Card (Enum suiteType, Integer cardNumber){
+    public Card (Integer id, Enum suiteType, Integer cardNumber){
         this.suiteType = suiteType;
         this.cardNumber = cardNumber;
+        this.id = id;
     }
 
     public String toString(){
@@ -43,9 +45,17 @@ public class Card implements Comparable<Card>{
         this.resourceId = resourceId;
     }
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     @Override
     public int compareTo(Card o) {
         int rankCom = suiteType.compareTo(o.suiteType);
-        return rankCom != 0 ? rankCom : cardNumber.compareTo(o.cardNumber);
+        return rankCom != 0 ? rankCom : o.cardNumber.compareTo(cardNumber);
     }
 }
