@@ -27,7 +27,8 @@
         android:layout_height="275dp"
         android:background="#A4A4A4"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true">
+        android:layout_centerHorizontal="true"
+        android:visibility="invisible">
 
         <TableRow
             android:gravity="center">
