@@ -27,14 +27,14 @@ public class CardUtilities {
     }
 
     private static List<SuitType> retrieveSuit(){
-        List<SuitType> suite = new ArrayList<SuitType>();
+        List<SuitType> suit = new ArrayList<SuitType>();
 
-        suite.add(SuitType.clubs);
-        suite.add(SuitType.hearts);
-        suite.add(SuitType.spades);
-        suite.add(SuitType.diamonds);
+        suit.add(SuitType.clubs);
+        suit.add(SuitType.hearts);
+        suit.add(SuitType.spades);
+        suit.add(SuitType.diamonds);
 
-        return suite;
+        return suit;
     }
 
     public static void setupBasicImageProperties(ImageView imageView, Card card, Integer x_position, Integer y_position){
