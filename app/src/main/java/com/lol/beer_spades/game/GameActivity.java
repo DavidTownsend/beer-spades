@@ -42,7 +42,7 @@ public class GameActivity extends Activity {
 
         setContentView(R.layout.activity_game);
 
-        allCards = generateCards();
+        allCards = CardUtilities.generateCards();
 
         player1 = new ArrayList<>();
         player2 = new ArrayList<>();
@@ -77,7 +77,7 @@ public class GameActivity extends Activity {
                 // If a card was selected - play it
                 if (selectedCard != null) {
                     playCard(selectedCard);
-                // If there are cards in the center
+                    // If there are cards in the center
                 } else if (roundCards != null && roundCards.size() != 0) {
                     collectRoundCards(view);
                 }
@@ -112,7 +112,7 @@ public class GameActivity extends Activity {
 
     // On-click for the card images. Increase or decrease the card's y value to show as selected
     private void selectCard(View view){
-        Card selectedCard = getCard(view.getId());
+        Card selectedCard = CardUtilities.getCard(allCards,view.getId());
         ImageView imageView = (ImageView) findViewById(view.getId());
 
         // If this card is already selected - deselect it
@@ -133,41 +133,13 @@ public class GameActivity extends Activity {
 
     // Get the card from player1 that is selected
     private Card getSelectedCard() {
-        for(Card card : player1){
+        for (Card card : player1) {
             if (card.isSelected()) {
                 return card;
             }
         }
 
         return null;
-    }
-
-    // Create the initial deck of cards
-    private List<Card> generateCards() {
-        List<Card> deck = new ArrayList<Card>();
-        List<SuiteType> suites = retrieveSuite();
-        Integer id = 0;
-
-        for(int j = 0; j < 4; j++) {
-            for (int i = 2; i <= 14; i++) {
-                deck.add(new Card(id, suites.get(j), i));
-                id ++;
-            }
-        }
-
-        return deck;
-    }
-
-    // Create the list of suits
-    private List<SuiteType> retrieveSuite(){
-        List<SuiteType> suite = new ArrayList<SuiteType>();
-
-        suite.add(SuiteType.clubs);
-        suite.add(SuiteType.hearts);
-        suite.add(SuiteType.spades);
-        suite.add(SuiteType.diamonds);
-
-        return suite;
     }
 
     // Add the player1 card to the roundCards and playing area
@@ -222,17 +194,6 @@ public class GameActivity extends Activity {
         RelativeLayout linearLayout = (RelativeLayout) findViewById(R.id.playing_area);
         linearLayout.setVisibility(View.VISIBLE);
         linearLayout.addView(imageView);
-    }
-
-    // Get a specific card from the entire deck
-    private Card getCard(int id){
-        for(Card card : allCards){
-            if(id == card.getId()){
-                return card;
-            }
-        }
-
-        return null;
     }
 
     // Hide the card's image
