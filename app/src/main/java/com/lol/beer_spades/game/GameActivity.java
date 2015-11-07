@@ -1,16 +1,10 @@
 package com.lol.beer_spades.game;
 
 import android.app.Activity;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.ColorInt;
 import android.view.View;
 import android.view.Window;
-import android.view.animation.Animation;
-import android.view.animation.LinearInterpolator;
-import android.view.animation.RotateAnimation;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -20,15 +14,15 @@ import android.widget.TextView;
 
 import com.lol.beer_spades.R;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
 /**
  * Created by davidtownsend on 11/2/15.
+ *
+ * uhhh alex too
  */
 public class GameActivity extends Activity {
 
@@ -238,77 +232,17 @@ private void selectCard(View view) {
         TableLayout bidTable = (TableLayout) findViewById(R.id.bidTable);
         bidTable.setVisibility(View.VISIBLE);
 
-        TableRow bidRow1 = (TableRow) findViewById(R.id.bidRow1);
-        for (int i = 0; i < 4; i++) {
-            Button bidButton = (Button) bidRow1.getChildAt(i);
-            bidButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (selectedBid != null) {
-                        int resID = getResources().getIdentifier(selectedBid.getButtonId(), "id", getPackageName());
-                        Button prevButton = (Button) findViewById(resID);
-                        prevButton.setBackgroundColor(Color.RED);
-                    }
-                    Button viewButton = (Button) view;
-                    viewButton.setBackgroundColor(Color.BLUE);
-                    selectedBid = BidType.findBidType(viewButton.getText().toString());
-                }
-            });
-        }
+        // Dbl Nil - 1
+        setupOnClickForBidButtons((TableRow) findViewById(R.id.bidRow1));
 
-        TableRow bidRow2 = (TableRow) findViewById(R.id.bidRow2);
-        for (int i = 0; i < 4; i++) {
-            Button bidButton = (Button) bidRow2.getChildAt(i);
-            bidButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (selectedBid != null) {
-                        int resID = getResources().getIdentifier(selectedBid.getButtonId(), "id", getPackageName());
-                        Button prevButton = (Button) findViewById(resID);
-                        prevButton.setBackgroundColor(Color.RED);
-                    }
-                    Button viewButton = (Button) view;
-                    viewButton.setBackgroundColor(Color.BLUE);
-                    selectedBid = BidType.findBidType(viewButton.getText().toString());
-                }
-            });
-        }
+        // 2 - 5
+        setupOnClickForBidButtons((TableRow) findViewById(R.id.bidRow2));
 
-        TableRow bidRow3 = (TableRow) findViewById(R.id.bidRow3);
-        for (int i = 0; i < 4; i++) {
-            Button bidButton = (Button) bidRow3.getChildAt(i);
-            bidButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (selectedBid != null) {
-                        int resID = getResources().getIdentifier(selectedBid.getButtonId(), "id", getPackageName());
-                        Button prevButton = (Button) findViewById(resID);
-                        prevButton.setBackgroundColor(Color.RED);
-                    }
-                    Button viewButton = (Button) view;
-                    viewButton.setBackgroundColor(Color.BLUE);
-                    selectedBid = BidType.findBidType(viewButton.getText().toString());
-                }
-            });
-        }
+        // 6 - 9
+        setupOnClickForBidButtons((TableRow) findViewById(R.id.bidRow3));
 
-        TableRow bidRow4 = (TableRow) findViewById(R.id.bidRow4);
-        for (int i = 0; i < 4; i++) {
-            Button bidButton = (Button) bidRow4.getChildAt(i);
-            bidButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (selectedBid != null) {
-                        int resID = getResources().getIdentifier(selectedBid.getButtonId(), "id", getPackageName());
-                        Button prevButton = (Button) findViewById(resID);
-                        prevButton.setBackgroundColor(Color.RED);
-                    }
-                    Button viewButton = (Button) view;
-                    viewButton.setBackgroundColor(Color.BLUE);
-                    selectedBid = BidType.findBidType(viewButton.getText().toString());
-                }
-            });
-        }
+        // 10 - 13
+        setupOnClickForBidButtons((TableRow) findViewById(R.id.bidRow4));
 
         Button confirmButton = (Button) findViewById(R.id.submitBid);
         confirmButton.setOnClickListener(new View.OnClickListener() {
@@ -318,5 +252,24 @@ private void selectCard(View view) {
                 bidTableOnConfirm.setVisibility(View.GONE);
             }
         });
+    }
+
+    private void setupOnClickForBidButtons(TableRow bidRow) {
+        for (int i = 0; i < 4; i++) {
+            Button bidButton = (Button) bidRow.getChildAt(i);
+            bidButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (selectedBid != null) {
+                        int resID = getResources().getIdentifier(selectedBid.getButtonId(), "id", getPackageName());
+                        Button prevButton = (Button) findViewById(resID);
+                        prevButton.setBackground(getResources().getDrawable(R.drawable.button));
+                    }
+                    Button viewButton = (Button) view;
+                    viewButton.setBackground(getResources().getDrawable(R.drawable.button_selected));
+                    selectedBid = BidType.findBidType(viewButton.getText().toString());
+                }
+            });
+        }
     }
 }
