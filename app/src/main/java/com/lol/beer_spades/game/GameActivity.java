@@ -108,6 +108,7 @@ public class GameActivity extends Activity {
 
                     collectRoundCards(view);
 
+                    // If hand over show scoreboard
                     if (handOver()) {
                         Intent i = new Intent(getBaseContext(), ScoreboardActivity.class);
                         Bundle players = new Bundle();
@@ -117,22 +118,22 @@ public class GameActivity extends Activity {
                         players.putSerializable("p4", player4);
                         i.putExtras(players);
                         startActivity(i);
-                    }
-
-                    //TODO cleanup
-                    RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.playing_area);
-                    relativeLayout.setClickable(false);
-                    if (StringUtils.equalsIgnoreCase(card.getPlayerName(), player1.getPlayerName())) {
-                        //DO nothing
-                    } else if (StringUtils.equalsIgnoreCase(card.getPlayerName(), player2.getPlayerName())) {
-                        playAICards(player2.getCards(), 0, 100);//, relativeLayout);
-                        playAICards(player3.getCards(), 125, 0);//, relativeLayout);
-                        playAICards(player4.getCards(), 250, 100);//, relativeLayout);
-                    } else if (StringUtils.equalsIgnoreCase(card.getPlayerName(), player3.getPlayerName())) {
-                        playAICards(player3.getCards(), 125, 0);//, relativeLayout);
-                        playAICards(player4.getCards(), 250, 100);//, relativeLayout);
                     } else {
-                        playAICards(player4.getCards(), 250, 100);//, relativeLayout);
+                        //TODO cleanup
+                        RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.playing_area);
+                        relativeLayout.setClickable(false);
+                        if (StringUtils.equalsIgnoreCase(card.getPlayerName(), player1.getPlayerName())) {
+                            //DO nothing
+                        } else if (StringUtils.equalsIgnoreCase(card.getPlayerName(), player2.getPlayerName())) {
+                            playAICards(player2.getCards(), 0, 100);
+                            playAICards(player3.getCards(), 125, 0);
+                            playAICards(player4.getCards(), 250, 100);
+                        } else if (StringUtils.equalsIgnoreCase(card.getPlayerName(), player3.getPlayerName())) {
+                            playAICards(player3.getCards(), 125, 0);
+                            playAICards(player4.getCards(), 250, 100);
+                        } else {
+                            playAICards(player4.getCards(), 250, 100);
+                        }
                     }
                 }
             }
@@ -230,17 +231,17 @@ public class GameActivity extends Activity {
         RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.playing_area);
         relativeLayout.setClickable(true);
 
-        renderCard(card, 125, 200);//, relativeLayout);
+        renderCard(card, 125, 200);
 
         if(roundCards.size() == 1) {
-            playAICards(player2.getCards(), 0, 100);//, relativeLayout);
-            playAICards(player3.getCards(), 125, 0);//, relativeLayout);
-            playAICards(player4.getCards(), 250, 100);//, relativeLayout);
+            playAICards(player2.getCards(), 0, 100);
+            playAICards(player3.getCards(), 125, 0);
+            playAICards(player4.getCards(), 250, 100);
         }else if(roundCards.size() == 2){
-            playAICards(player2.getCards(), 0, 100);//, relativeLayout);
-            playAICards(player3.getCards(), 125, 0);//, relativeLayout);
+            playAICards(player2.getCards(), 0, 100);
+            playAICards(player3.getCards(), 125, 0);
         }else if(roundCards.size() == 3){
-            playAICards(player2.getCards(), 0, 100);//, relativeLayout);
+            playAICards(player2.getCards(), 0, 100);
         }
 
 
@@ -250,17 +251,17 @@ public class GameActivity extends Activity {
     }
 
     // Add a random AI card to the roundCards and playing area
-    private void playAICards(List<Card> playerHand,int x_position, int y_position) {//, RelativeLayout relativeLayout) {
+    private void playAICards(List<Card> playerHand,int x_position, int y_position) {
 //        Random randomGenerator = new Random();
         Card card = aiAction.calculateNextCard(playerHand, roundCards);
         card.setResourceId(getResources().getIdentifier(card.toString(), "drawable", getPackageName()));
-        renderCard(card, x_position, y_position);//, relativeLayout);
+        renderCard(card, x_position, y_position);
         roundCards.add(card);
         playerHand.remove(card);
     }
 
     // Create a card image and add it to the playing area
-    private void renderCard(Card card, int x_position, int y_position ) {//, RelativeLayout relativeLayout) {
+    private void renderCard(Card card, int x_position, int y_position ) {
         ImageView imageView = new ImageView(this);
 
         imageView.setImageResource(card.getResourceId());

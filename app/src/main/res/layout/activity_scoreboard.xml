@@ -25,7 +25,7 @@
         <TableRow
             android:id="@+id/scoreboardHeaderRow"
             android:gravity="center"
-            android:background="@drawable/blackBackgroundColor">
+            android:background="@drawable/black_background_color">
             <TextView
                 android:text=""
                 android:layout_width="0dp"
