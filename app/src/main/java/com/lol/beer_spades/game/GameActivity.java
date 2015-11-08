@@ -109,7 +109,7 @@ public class GameActivity extends Activity {
                     collectRoundCards(view);
 
                     // If hand over show scoreboard
-                    if (handOver()) {
+                    if (isHandOver()) {
                         Intent i = new Intent(getBaseContext(), ScoreboardActivity.class);
                         Bundle players = new Bundle();
                         players.putSerializable("p1", player1);
@@ -140,7 +140,7 @@ public class GameActivity extends Activity {
         });
     }
 
-    private boolean handOver() {
+    private boolean isHandOver() {
         return player1.getCards().size() == 0;
     }
 
