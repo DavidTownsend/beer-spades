@@ -1,6 +1,7 @@
 package com.lol.beer_spades.game;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -14,13 +15,13 @@ import android.widget.TextView;
 
 import com.lol.beer_spades.R;
 import com.lol.beer_spades.player.Player;
+import com.lol.beer_spades.scoreboard.ScoreboardActivity;
 
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 /**
  * Created by davidtownsend on 11/2/15.
@@ -29,6 +30,7 @@ import java.util.Random;
  */
 public class GameActivity extends Activity {
 
+    //TODO is this needed
     private static final String TAG = GameActivity.class.getSimpleName();
 
     ActionsByAI  aiAction;
@@ -106,25 +108,40 @@ public class GameActivity extends Activity {
 
                     collectRoundCards(view);
 
-
-                    //TODO cleanup
-                    RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.playing_area);
-                    relativeLayout.setClickable(false);
-                    if (StringUtils.equalsIgnoreCase(card.getPlayerName(), player1.getPlayerName())) {
-                        //DO nothing
-                    } else if (StringUtils.equalsIgnoreCase(card.getPlayerName(), player2.getPlayerName())) {
-                        playAICards(player2.getCards(), 0, 100, relativeLayout);
-                        playAICards(player3.getCards(), 125, 0, relativeLayout);
-                        playAICards(player4.getCards(), 250, 100, relativeLayout);
-                    } else if (StringUtils.equalsIgnoreCase(card.getPlayerName(), player3.getPlayerName())) {
-                        playAICards(player3.getCards(), 125, 0, relativeLayout);
-                        playAICards(player4.getCards(), 250, 100, relativeLayout);
+                    // If hand over show scoreboard
+                    if (handOver()) {
+                        Intent i = new Intent(getBaseContext(), ScoreboardActivity.class);
+                        Bundle players = new Bundle();
+                        players.putSerializable("p1", player1);
+                        players.putSerializable("p2", player2);
+                        players.putSerializable("p3", player3);
+                        players.putSerializable("p4", player4);
+                        i.putExtras(players);
+                        startActivity(i);
                     } else {
-                        playAICards(player4.getCards(), 250, 100, relativeLayout);
+                        //TODO cleanup
+                        RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.playing_area);
+                        relativeLayout.setClickable(false);
+                        if (StringUtils.equalsIgnoreCase(card.getPlayerName(), player1.getPlayerName())) {
+                            //DO nothing
+                        } else if (StringUtils.equalsIgnoreCase(card.getPlayerName(), player2.getPlayerName())) {
+                            playAICards(player2.getCards(), 0, 100);
+                            playAICards(player3.getCards(), 125, 0);
+                            playAICards(player4.getCards(), 250, 100);
+                        } else if (StringUtils.equalsIgnoreCase(card.getPlayerName(), player3.getPlayerName())) {
+                            playAICards(player3.getCards(), 125, 0);
+                            playAICards(player4.getCards(), 250, 100);
+                        } else {
+                            playAICards(player4.getCards(), 250, 100);
+                        }
                     }
                 }
             }
         });
+    }
+
+    private boolean handOver() {
+        return player1.getCards().size() == 0;
     }
 
     private void increaseWinnersTricks(Card winningCard) {
@@ -214,17 +231,17 @@ public class GameActivity extends Activity {
         RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.playing_area);
         relativeLayout.setClickable(true);
 
-        renderCard(card, 125, 200, relativeLayout);
+        renderCard(card, 125, 200);
 
         if(roundCards.size() == 1) {
-            playAICards(player2.getCards(), 0, 100, relativeLayout);
-            playAICards(player3.getCards(), 125, 0, relativeLayout);
-            playAICards(player4.getCards(), 250, 100, relativeLayout);
+            playAICards(player2.getCards(), 0, 100);
+            playAICards(player3.getCards(), 125, 0);
+            playAICards(player4.getCards(), 250, 100);
         }else if(roundCards.size() == 2){
-            playAICards(player2.getCards(), 0, 100, relativeLayout);
-            playAICards(player3.getCards(), 125, 0, relativeLayout);
+            playAICards(player2.getCards(), 0, 100);
+            playAICards(player3.getCards(), 125, 0);
         }else if(roundCards.size() == 3){
-            playAICards(player2.getCards(), 0, 100, relativeLayout);
+            playAICards(player2.getCards(), 0, 100);
         }
 
 
@@ -234,17 +251,17 @@ public class GameActivity extends Activity {
     }
 
     // Add a random AI card to the roundCards and playing area
-    private void playAICards(List<Card> playerHand,int x_position, int y_position, RelativeLayout relativeLayout) {
-        Random randomGenerator = new Random();
+    private void playAICards(List<Card> playerHand,int x_position, int y_position) {
+//        Random randomGenerator = new Random();
         Card card = aiAction.calculateNextCard(playerHand, roundCards);
         card.setResourceId(getResources().getIdentifier(card.toString(), "drawable", getPackageName()));
-        renderCard(card, x_position, y_position, relativeLayout);
+        renderCard(card, x_position, y_position);
         roundCards.add(card);
         playerHand.remove(card);
     }
 
     // Create a card image and add it to the playing area
-    private void renderCard(Card card, int x_position, int y_position, RelativeLayout relativeLayout) {
+    private void renderCard(Card card, int x_position, int y_position ) {
         ImageView imageView = new ImageView(this);
 
         imageView.setImageResource(card.getResourceId());
