@@ -7,8 +7,8 @@ import java.util.List;
  */
 public class ActionsByAI
 {
-    public Card highestCardOnTable = null;
-    Card firstCardPlayed = null;
+    private Card highestCardOnTable = null;
+    private Card firstCardPlayed = null;
 
   protected Card calculateNextCard(List<Card> AIHand,  List<Card> cardsOnTable)
   {

@@ -1,13 +1,17 @@
 package com.lol.beer_spades.scoreboard;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
 import android.view.Window;
+import android.widget.RelativeLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.lol.beer_spades.R;
+import com.lol.beer_spades.game.GameActivity;
 import com.lol.beer_spades.player.Player;
 
 import org.apache.commons.lang3.StringUtils;
@@ -19,6 +23,10 @@ import org.apache.commons.lang3.StringUtils;
 public class ScoreboardActivity extends Activity {
     //TODO is this needed
     private static final String TAG = ScoreboardActivity.class.getSimpleName();
+    private Player player1;
+    private Player player2;
+    private Player player3;
+    private Player player4;
 
     @Override
     // Initialization
@@ -29,10 +37,10 @@ public class ScoreboardActivity extends Activity {
         setContentView(R.layout.activity_scoreboard);
 
         Bundle players = this.getIntent().getExtras();
-        Player player1 = (Player)players.getSerializable("p1");
-        Player player2 = (Player)players.getSerializable("p2");
-        Player player3 = (Player)players.getSerializable("p3");
-        Player player4 = (Player)players.getSerializable("p4");
+        player1 = (Player) players.getSerializable("p1");
+        player2 = (Player) players.getSerializable("p2");
+        player3 = (Player) players.getSerializable("p3");
+        player4 = (Player) players.getSerializable("p4");
 
         assignPoints(player1);
         assignPoints(player2);
@@ -50,6 +58,22 @@ public class ScoreboardActivity extends Activity {
 
         TableRow p4ScoreboardRow = (TableRow) findViewById(R.id.player4Scoreboard);
         addTableRowTextViews(p4ScoreboardRow, player4);
+
+        RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.scoreboardRelativeLayout);
+        relativeLayout.setClickable(true);
+        relativeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getBaseContext(), GameActivity.class);
+                Bundle players = new Bundle();
+                players.putSerializable("p1", player1);
+                players.putSerializable("p2", player2);
+                players.putSerializable("p3", player3);
+                players.putSerializable("p4", player4);
+                i.putExtras(players);
+                startActivity(i);
+            }
+        });
     }
 
     private void addTableRowTextViews(TableRow scoreboardRow, Player player) {
@@ -67,7 +91,7 @@ public class ScoreboardActivity extends Activity {
             player.setRoundPoints(player.getBid() * -10);
         } else {
             player.setRoundBags(player.getMade() - player.getBid());
-            player.setRoundPoints(player.getBid() * 10 + player. getRoundBags());
+            player.setRoundPoints(player.getBid() * 10 + player.getRoundBags());
         }
         player.setTotalBags(player.getRoundBags() + player.getTotalBags());
         player.setTotalPoints(player.getRoundPoints() + player.getTotalPoints());
@@ -83,7 +107,6 @@ public class ScoreboardActivity extends Activity {
         } else {
             textView.setText("" + intText);
         }
-
         return textView;
     }
 }

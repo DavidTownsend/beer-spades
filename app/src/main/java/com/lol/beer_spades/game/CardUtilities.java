@@ -12,7 +12,7 @@ import java.util.List;
 public class CardUtilities {
 
     public static List<Card> generateCards() {
-        List<Card> deck = new ArrayList<Card>();
+        List<Card> deck = new ArrayList<>();
         List<SuitType> suits = retrieveSuit();
         Integer id = 0;
 
@@ -27,7 +27,7 @@ public class CardUtilities {
     }
 
     private static List<SuitType> retrieveSuit(){
-        List<SuitType> suit = new ArrayList<SuitType>();
+        List<SuitType> suit = new ArrayList<>();
 
         suit.add(SuitType.clubs);
         suit.add(SuitType.hearts);
@@ -37,6 +37,7 @@ public class CardUtilities {
         return suit;
     }
 
+    // TODO not being used
     public static void setupBasicImageProperties(ImageView imageView, Card card, Integer x_position, Integer y_position){
         imageView.setImageResource(card.getResourceId());
         imageView.setMaxHeight(165);
