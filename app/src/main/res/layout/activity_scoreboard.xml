@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scoreboardRelativeLayout"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="horizontal"
-    tools:context=".GameActivity">
+    tools:context=".ScoreboardActivity">
 
     <ImageView
         android:id="@+id/imageView1"
@@ -15,14 +16,16 @@
 
     <TableLayout
         android:id="@+id/scoreboardTable"
-        android:layout_width="300dp"
+        android:layout_width="400dp"
         android:layout_height="275dp"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true">
         <!--android:visibility="invisible"-->
 
         <TableRow
-            android:gravity="center">
+            android:id="@+id/scoreboardHeaderRow"
+            android:gravity="center"
+            android:background="@drawable/blackBackgroundColor">
             <TextView
                 android:text=""
                 android:layout_width="0dp"
@@ -45,13 +48,6 @@
                 android:textColor="#FF0000"
                 android:textSize="20dp" />
             <TextView
-                android:text="@string/points"
-                android:layout_width="0dp"
-                android:layout_height="30dp"
-                android:layout_weight="1"
-                android:textColor="#FF0000"
-                android:textSize="20dp" />
-            <TextView
                 android:text="@string/bags"
                 android:layout_width="0dp"
                 android:layout_height="30dp"
@@ -59,7 +55,7 @@
                 android:textColor="#FF0000"
                 android:textSize="20dp" />
             <TextView
-                android:text="@string/penalty"
+                android:text="@string/points"
                 android:layout_width="0dp"
                 android:layout_height="30dp"
                 android:layout_weight="1"
@@ -75,55 +71,15 @@
         </TableRow>
         <TableRow
             android:id="@+id/player1Scoreboard">
-            <TextView
-                android:id="@+id/player1Name"
-                android:layout_width="0dp"
-                android:layout_height="30dp"
-                android:layout_weight="1"
-                android:textColor="#FF0000"
-                android:textSize="20dp" />
-            <TextView
-                android:id="@+id/player1Made"
-                android:layout_width="0dp"
-                android:layout_height="30dp"
-                android:layout_weight="1"
-                android:textColor="#FF0000"
-                android:textSize="20dp" />
-            <TextView
-                android:id="@+id/player1Bid"
-                android:layout_width="0dp"
-                android:layout_height="30dp"
-                android:layout_weight="1"
-                android:textColor="#FF0000"
-                android:textSize="20dp" />
-            <TextView
-                android:id="@+id/player1Points"
-                android:layout_width="0dp"
-                android:layout_height="30dp"
-                android:layout_weight="1"
-                android:textColor="#FF0000"
-                android:textSize="20dp" />
-            <TextView
-                android:id="@+id/player1Bags"
-                android:layout_width="0dp"
-                android:layout_height="30dp"
-                android:layout_weight="1"
-                android:textColor="#FF0000"
-                android:textSize="20dp" />
-            <TextView
-                android:id="@+id/player1Penalty"
-                android:layout_width="0dp"
-                android:layout_height="30dp"
-                android:layout_weight="1"
-                android:textColor="#FF0000"
-                android:textSize="20dp" />
-            <TextView
-                android:id="@+id/player1Total"
-                android:layout_width="0dp"
-                android:layout_height="30dp"
-                android:layout_weight="1"
-                android:textColor="#FF0000"
-                android:textSize="20dp" />
+        </TableRow>
+        <TableRow
+            android:id="@+id/player2Scoreboard">
+        </TableRow>
+        <TableRow
+            android:id="@+id/player3Scoreboard">
+        </TableRow>
+        <TableRow
+            android:id="@+id/player4Scoreboard">
         </TableRow>
     </TableLayout>
 </RelativeLayout>
