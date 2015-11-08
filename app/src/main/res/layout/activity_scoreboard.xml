@@ -32,42 +32,42 @@
                 android:layout_height="30dp"
                 android:layout_weight="1"
                 android:textColor="#FF0000"
-                android:textSize="20dp" />
+                android:textSize="20sp" />
             <TextView
                 android:text="@string/made"
                 android:layout_width="0dp"
                 android:layout_height="30dp"
                 android:layout_weight="1"
                 android:textColor="#FF0000"
-                android:textSize="20dp" />
+                android:textSize="20sp" />
             <TextView
                 android:text="@string/bid"
                 android:layout_width="0dp"
                 android:layout_height="30dp"
                 android:layout_weight="1"
                 android:textColor="#FF0000"
-                android:textSize="20dp" />
+                android:textSize="20sp" />
             <TextView
                 android:text="@string/bags"
                 android:layout_width="0dp"
                 android:layout_height="30dp"
                 android:layout_weight="1"
                 android:textColor="#FF0000"
-                android:textSize="20dp" />
+                android:textSize="20sp" />
             <TextView
                 android:text="@string/points"
                 android:layout_width="0dp"
                 android:layout_height="30dp"
                 android:layout_weight="1"
                 android:textColor="#FF0000"
-                android:textSize="20dp" />
+                android:textSize="20sp" />
             <TextView
                 android:text="@string/total"
                 android:layout_width="0dp"
                 android:layout_height="30dp"
                 android:layout_weight="1"
                 android:textColor="#FF0000"
-                android:textSize="20dp" />
+                android:textSize="20sp" />
         </TableRow>
         <TableRow
             android:id="@+id/player1Scoreboard">

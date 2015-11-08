@@ -23,7 +23,7 @@
 
     <TableLayout
         android:id="@+id/bidTable"
-        android:layout_width="300dp"
+        android:layout_width="275dp"
         android:layout_height="275dp"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
@@ -36,7 +36,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="#FF0000"
-                android:textSize="40dp" />
+                android:textSize="40sp" />
         </TableRow>
         <TableRow
             android:id="@+id/bidRow1">
@@ -183,33 +183,33 @@
             android:id="@+id/p1_tricks"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="15dp"
+            android:paddingStart="15dp"
             android:textColor="#F7FE2E"
-            android:textSize="20dp" />
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/p2_tricks"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="15dp"
+            android:paddingStart="15dp"
             android:textColor="#FF0000"
-            android:textSize="20dp" />
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/p3_tricks"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="15dp"
+            android:paddingStart="15dp"
             android:textColor="#FF0000"
-            android:textSize="20dp" />
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/p4_tricks"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="15dp"
+            android:paddingStart="15dp"
             android:textColor="#FF0000"
-            android:textSize="20dp" />
+            android:textSize="20sp" />
 
     </LinearLayout>
 
@@ -221,6 +221,6 @@
         android:layout_alignParentBottom="true"
         android:gravity="center|bottom"
         android:orientation="horizontal"
-        tools:ignore="UselessParent"></LinearLayout>
+        tools:ignore="UselessParent"/>
 
 </RelativeLayout>

@@ -33,8 +33,7 @@ public class GameActivity extends Activity {
     //TODO is this needed
     private static final String TAG = GameActivity.class.getSimpleName();
 
-    ActionsByAI  aiAction;
-    private List<Card> allCards;
+    private ActionsByAI  aiAction;
     private Player player1;
     private Player player2;
     private Player player3;
@@ -50,12 +49,15 @@ public class GameActivity extends Activity {
 
         setContentView(R.layout.activity_game);
 
-        allCards = CardUtilities.generateCards();
+        List<Card> allCards = CardUtilities.generateCards();
 
-        player1 = new Player("Yoda");
-        player2 = new Player("Luke");
-        player3 = new Player("Anikan");
-        player4 = new Player("Ja Ja");
+        if (player1 == null) {
+            player1 = new Player("Yoda");
+            player2 = new Player("Luke");
+            player3 = new Player("Anikan");
+            player4 = new Player("Ja Ja");
+        }
+
         roundCards = new ArrayList<>();
 
         Collections.shuffle(allCards);
@@ -192,7 +194,7 @@ public class GameActivity extends Activity {
 
     // On-click for the card images. Increase or decrease the card's y value to show as selected
     private void selectCard(View view, RelativeLayout relativeLayout) {
-        Card selectedCard = CardUtilities.getCard(allCards, view.getId());
+        Card selectedCard = CardUtilities.getCard(player1.getCards(), view.getId());
         ImageView imageView = (ImageView) findViewById(view.getId());
 
         // If this card is already selected - deselect it

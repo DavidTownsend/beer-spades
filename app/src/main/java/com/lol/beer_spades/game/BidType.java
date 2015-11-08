@@ -4,22 +4,22 @@ package com.lol.beer_spades.game;
  * Created by Schimm on 11/7/2015.
  */
 public class BidType {
-    public static final BidType NIL = new BidType(-1, "nilBid");
-    public static final BidType DOUBLENIL = new BidType(-10, "doubleNilBid");
-    public static final BidType ZERO = new BidType(0, "zeroBid");
-    public static final BidType ONE = new BidType(1, "oneBid");
-    public static final BidType TWO = new BidType(2, "twoBid");
-    public static final BidType THREE = new BidType(3, "threeBid");
-    public static final BidType FOUR = new BidType(4, "fourBid");
-    public static final BidType FIVE = new BidType(5, "fiveBid");
-    public static final BidType SIX = new BidType(6, "sixBid");
-    public static final BidType SEVEN = new BidType(7, "sevenBid");
-    public static final BidType EIGHT = new BidType(8, "eightBid");
-    public static final BidType NINE = new BidType(9, "nineBid");
-    public static final BidType TEN = new BidType(10, "tenBid");
-    public static final BidType ELEVEN = new BidType(11, "elevenBid");
-    public static final BidType TWELVE = new BidType(12, "twelveBid");
-    public static final BidType THIRTEEN = new BidType(13, "thirteenBid");
+    private static final BidType NIL = new BidType(-1, "nilBid");
+    private static final BidType DOUBLENIL = new BidType(-10, "doubleNilBid");
+    private static final BidType ZERO = new BidType(0, "zeroBid");
+    private static final BidType ONE = new BidType(1, "oneBid");
+    private static final BidType TWO = new BidType(2, "twoBid");
+    private static final BidType THREE = new BidType(3, "threeBid");
+    private static final BidType FOUR = new BidType(4, "fourBid");
+    private static final BidType FIVE = new BidType(5, "fiveBid");
+    private static final BidType SIX = new BidType(6, "sixBid");
+    private static final BidType SEVEN = new BidType(7, "sevenBid");
+    private static final BidType EIGHT = new BidType(8, "eightBid");
+    private static final BidType NINE = new BidType(9, "nineBid");
+    private static final BidType TEN = new BidType(10, "tenBid");
+    private static final BidType ELEVEN = new BidType(11, "elevenBid");
+    private static final BidType TWELVE = new BidType(12, "twelveBid");
+    private static final BidType THIRTEEN = new BidType(13, "thirteenBid");
 
     private int value;
     private String buttonId;
@@ -30,7 +30,7 @@ public class BidType {
     }
 
     public static BidType findBidType(String buttonText) {
-        if (buttonText == "" || buttonText == null) {
+        if (buttonText.equals("") || buttonText == null) {
             return null;
         }
 
@@ -75,17 +75,7 @@ public class BidType {
     public int getValue() {
         return value;
     }
-
-    public void setValue(int value) {
-        this.value = value;
-    }
-
     public String getButtonId() {
         return buttonId;
     }
-
-    public void setButtonId(String buttonId) {
-        this.buttonId = buttonId;
-    }
-
 }

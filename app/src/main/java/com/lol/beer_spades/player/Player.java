@@ -19,14 +19,10 @@ public class Player implements Serializable {
     private Integer roundBags = 0;
     private Integer totalPoints = 0;
 
-    public Player (){
+    public Player (String playerName) {
         cards = new ArrayList<>();
         bid = 0;
         made = 0;
-    }
-
-    public Player (String playerName) {
-        this();
         this.playerName = playerName;
     }
 
@@ -46,24 +42,12 @@ public class Player implements Serializable {
         return cards;
     }
 
-    public void setCards(List<Card> cards) {
-        this.cards = cards;
-    }
-
     public Integer getMade() {
         return made;
     }
 
-    public void setMade(Integer made) {
-        this.made = made;
-    }
-
     public String getPlayerName() {
         return playerName;
-    }
-
-    public void setPlayerName(String playerName) {
-        this.playerName = playerName;
     }
 
     public Integer getRoundPoints() {
