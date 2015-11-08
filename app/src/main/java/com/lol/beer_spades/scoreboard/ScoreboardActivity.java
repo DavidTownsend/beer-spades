@@ -1,46 +1,24 @@
 package com.lol.beer_spades.scoreboard;
 
-import android.app.ActionBar;
 import android.app.Activity;
-import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.RelativeLayout;
-import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.lol.beer_spades.R;
-import com.lol.beer_spades.game.ActionsByAI;
-import com.lol.beer_spades.game.BidType;
-import com.lol.beer_spades.game.Card;
-import com.lol.beer_spades.game.CardUtilities;
 import com.lol.beer_spades.player.Player;
 
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * Created by Schimm on 11/7/2015.
  */
 public class ScoreboardActivity extends Activity {
+    //TODO is this needed
     private static final String TAG = ScoreboardActivity.class.getSimpleName();
-
-    ActionsByAI aiAction;
-    private List<Card> allCards;
-    private Player player1;
-    private Player player2;
-    private Player player3;
-    private Player player4;
-    private List<Card> roundCards;
-    private BidType selectedBid;
 
     @Override
     // Initialization
@@ -62,36 +40,25 @@ public class ScoreboardActivity extends Activity {
         assignPoints(player4);
 
         TableRow p1ScoreboardRow = (TableRow) findViewById(R.id.player1Scoreboard);
-        p1ScoreboardRow.addView(createTextView(player1.getPlayerName(), 0));
-        p1ScoreboardRow.addView(createTextView(StringUtils.EMPTY, player1.getMade()));
-        p1ScoreboardRow.addView(createTextView(StringUtils.EMPTY, player1.getBid()));
-        p1ScoreboardRow.addView(createTextView(player1.getDisplayBags(), 0));
-        p1ScoreboardRow.addView(createTextView(StringUtils.EMPTY, player1.getRoundPoints()));
-        p1ScoreboardRow.addView(createTextView(StringUtils.EMPTY, player1.getTotalPoints()));
+        addTableRowTextViews(p1ScoreboardRow, player1);
 
         TableRow p2ScoreboardRow = (TableRow) findViewById(R.id.player2Scoreboard);
-        p2ScoreboardRow.addView(createTextView(player2.getPlayerName(), 0));
-        p2ScoreboardRow.addView(createTextView(StringUtils.EMPTY, player2.getMade()));
-        p2ScoreboardRow.addView(createTextView(StringUtils.EMPTY, player2.getBid()));
-        p2ScoreboardRow.addView(createTextView(player2.getDisplayBags(), 0));
-        p2ScoreboardRow.addView(createTextView(StringUtils.EMPTY, player2.getRoundPoints()));
-        p2ScoreboardRow.addView(createTextView(StringUtils.EMPTY, player2.getTotalPoints()));
+        addTableRowTextViews(p2ScoreboardRow, player2);
 
         TableRow p3ScoreboardRow = (TableRow) findViewById(R.id.player3Scoreboard);
-        p3ScoreboardRow.addView(createTextView(player3.getPlayerName(), 0));
-        p3ScoreboardRow.addView(createTextView(StringUtils.EMPTY, player3.getMade()));
-        p3ScoreboardRow.addView(createTextView(StringUtils.EMPTY, player3.getBid()));
-        p3ScoreboardRow.addView(createTextView(player3.getDisplayBags(), 0));
-        p3ScoreboardRow.addView(createTextView(StringUtils.EMPTY, player3.getRoundPoints()));
-        p3ScoreboardRow.addView(createTextView(StringUtils.EMPTY, player3.getTotalPoints()));
+        addTableRowTextViews(p3ScoreboardRow, player3);
 
         TableRow p4ScoreboardRow = (TableRow) findViewById(R.id.player4Scoreboard);
-        p4ScoreboardRow.addView(createTextView(player4.getPlayerName(), 0));
-        p4ScoreboardRow.addView(createTextView(StringUtils.EMPTY, player4.getMade()));
-        p4ScoreboardRow.addView(createTextView(StringUtils.EMPTY, player4.getBid()));
-        p4ScoreboardRow.addView(createTextView(player4.getDisplayBags(), 0));
-        p4ScoreboardRow.addView(createTextView(StringUtils.EMPTY, player4.getRoundPoints()));
-        p4ScoreboardRow.addView(createTextView(StringUtils.EMPTY, player4.getTotalPoints()));
+        addTableRowTextViews(p4ScoreboardRow, player4);
+    }
+
+    private void addTableRowTextViews(TableRow scoreboardRow, Player player) {
+        scoreboardRow.addView(createTextView(player.getPlayerName(), 0));
+        scoreboardRow.addView(createTextView(StringUtils.EMPTY, player.getMade()));
+        scoreboardRow.addView(createTextView(StringUtils.EMPTY, player.getBid()));
+        scoreboardRow.addView(createTextView(player.getDisplayBags(), 0));
+        scoreboardRow.addView(createTextView(StringUtils.EMPTY, player.getRoundPoints()));
+        scoreboardRow.addView(createTextView(StringUtils.EMPTY, player.getTotalPoints()));
     }
 
     private void assignPoints(Player player) {

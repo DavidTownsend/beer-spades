@@ -7,15 +7,27 @@ import java.util.List;
  */
 public class ActionsByAI
 {
-    Card highestCardOnTable;
-    Card firstCardPlayed;
+    public Card highestCardOnTable = null;
+    Card firstCardPlayed = null;
 
   protected Card calculateNextCard(List<Card> AIHand,  List<Card> cardsOnTable)
   {
       //First card in array is expected to be the first card played.
-      highestCardOnTable = cardsOnTable.get(0);
-      firstCardPlayed = cardsOnTable.get(0);
+      //highestCardOnTable = cardsOnTable.get(0);
 
+      if(cardsOnTable == null || cardsOnTable.isEmpty())
+      {
+          highestCardOnTable = null;
+          return playHighestCardInHand(AIHand);
+      }
+      else{
+          //This is to set highest card if player starts the round.
+          if(highestCardOnTable == null)
+          {
+              highestCardOnTable =cardsOnTable.get(0);
+          }
+          firstCardPlayed = cardsOnTable.get(0);
+      }
 
       if(haveSameSuit(AIHand))
       {
@@ -29,6 +41,38 @@ public class ActionsByAI
     return lowestCardInHand(AIHand);
   }
 
+    private Card playHighestCardInHand(List<Card> AIHand)
+    {
+
+
+        //Find the lowest card
+        for (int i=0; i < AIHand.size();i++)
+        {
+            //Just ignore spades for now for first phase
+            if(!AIHand.get(i).getSuitType().equals(SuitType.spades))
+            {
+                if(highestCardOnTable == null)
+                {
+                    highestCardOnTable = AIHand.get(i);
+                }
+                else
+                {
+                    if(AIHand.get(i).getCardNumber() > highestCardOnTable.getCardNumber())
+                    {
+                        highestCardOnTable = AIHand.get(i);
+                    }
+                }
+
+            }
+        }
+
+        //If still null this means the player only has Spades left so pick a spade.
+        if(highestCardOnTable == null)
+        {
+            highestCardOnTable = AIHand.get(0);
+        }
+        return highestCardOnTable;
+    }
   private Card lowestCardOfThatSuit(Enum suit,List<Card> AIHand)
     {
         for (int i=0; i < AIHand.size();i++)
