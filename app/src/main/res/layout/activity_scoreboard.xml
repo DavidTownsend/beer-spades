@@ -19,13 +19,12 @@
         android:layout_width="400dp"
         android:layout_height="275dp"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true">
-        <!--android:visibility="invisible"-->
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/black_background_color">
 
         <TableRow
             android:id="@+id/scoreboardHeaderRow"
-            android:gravity="center"
-            android:background="@drawable/black_background_color">
+            android:gravity="center">
             <TextView
                 android:text=""
                 android:layout_width="0dp"
