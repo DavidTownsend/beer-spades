@@ -1,8 +1,10 @@
 package com.lol.beer_spades.game;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -16,6 +18,7 @@ import android.widget.TextView;
 import com.lol.beer_spades.R;
 import com.lol.beer_spades.player.Player;
 import com.lol.beer_spades.scoreboard.ScoreboardActivity;
+import com.lol.beer_spades.utils.LogginUtils;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -44,51 +47,67 @@ public class GameActivity extends Activity {
     @Override
     // Initialization
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        try {
+            super.onCreate(savedInstanceState);
+            this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-        setContentView(R.layout.activity_game);
+            setContentView(R.layout.activity_game);
 
-        List<Card> allCards = CardUtilities.generateCards();
+            List<Card> allCards = CardUtilities.generateCards();
 
-        if (player1 == null) {
-            player1 = new Player("Yoda");
-            player2 = new Player("Luke");
-            player3 = new Player("Anikan");
-            player4 = new Player("Ja Ja");
+            if (player1 == null) {
+                player1 = new Player("Yoda");
+                player2 = new Player("Luke");
+                player3 = new Player("Anikan");
+                player4 = new Player("Ja Ja");
+            }
+
+            roundCards = new ArrayList<>();
+
+            Collections.shuffle(allCards);
+            for (int i = 0; i < 52; i++) {
+                Card card1 = allCards.get(i++);
+                card1.setPlayerName(player1.getPlayerName());
+                player1.getCards().add(card1);
+
+                Card card2 = allCards.get(i++);
+                card2.setPlayerName(player2.getPlayerName());
+                player2.getCards().add(card2);
+
+                Card card3 = allCards.get(i++);
+                card3.setPlayerName(player3.getPlayerName());
+                player3.getCards().add(card3);
+
+                Card card4 = allCards.get(i);
+                card4.setPlayerName(player4.getPlayerName());
+                player4.getCards().add(card4);
+            }
+            Collections.sort(player1.getCards());
+            Collections.sort(player2.getCards());
+            Collections.sort(player3.getCards());
+            Collections.sort(player4.getCards());
+
+            Runtime rt = Runtime.getRuntime();
+            long maxMemory = rt.maxMemory();
+
+            LogginUtils.appendLog("Max memory :" + maxMemory);
+
+            ActivityManager am = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
+            int memoryClass = am.getMemoryClass();
+
+            LogginUtils.appendLog("memoryClass :" + memoryClass);
+
+            aiAction = new ActionsByAI();
+            drawInitialHand();
+            configurePlayingArea();
+            setAIBids();
+
+            setupBidTable();
+        }catch(Throwable e){
+            Log.e(TAG, e.getMessage());
+            LogginUtils.logHeap();
+            LogginUtils.appendLog(e.getMessage());
         }
-
-        roundCards = new ArrayList<>();
-
-        Collections.shuffle(allCards);
-        for (int i = 0; i < 52; i++) {
-            Card card1 = allCards.get(i++);
-            card1.setPlayerName(player1.getPlayerName());
-            player1.getCards().add(card1);
-
-            Card card2 = allCards.get(i++);
-            card2.setPlayerName(player2.getPlayerName());
-            player2.getCards().add(card2);
-
-            Card card3 = allCards.get(i++);
-            card3.setPlayerName(player3.getPlayerName());
-            player3.getCards().add(card3);
-
-            Card card4 = allCards.get(i);
-            card4.setPlayerName(player4.getPlayerName());
-            player4.getCards().add(card4);
-        }
-        Collections.sort(player1.getCards());
-        Collections.sort(player2.getCards());
-        Collections.sort(player3.getCards());
-        Collections.sort(player4.getCards());
-
-        aiAction = new ActionsByAI();
-        drawInitialHand();
-        configurePlayingArea();
-        setAIBids();
-
-        setupBidTable();
     }
 
     // Configure the center/playing area
@@ -166,7 +185,7 @@ public class GameActivity extends Activity {
     private void createNewImageView(int resId, LinearLayout linearLayout, int cardId) {
         ImageView imageView = new ImageView(this);
 
-        imageView.setImageResource(resId);
+        imageView.setImageBitmap(CardUtilities.decodeSampledBitmapFromResource(getResources(), resId, 175, 175));
         imageView.setMaxHeight(175);
         imageView.setMaxWidth(175);
         imageView.setAdjustViewBounds(true);
@@ -179,7 +198,7 @@ public class GameActivity extends Activity {
                 RelativeLayout playingArea = (RelativeLayout) findViewById(R.id.playing_area);
                 TableLayout bidArea = (TableLayout) findViewById(R.id.bidTable);
                 // No cards in the center and bid selection isn't viewable
-                if(roundCards.size() != 4 & bidArea.getVisibility() == View.GONE){
+                if (roundCards.size() != 4 & bidArea.getVisibility() == View.GONE) {
                     selectCard(view, playingArea);
                 }
 //                if ((playingArea.getChildCount() == 0 || playingArea.getVisibility() == View.GONE)
@@ -266,7 +285,7 @@ public class GameActivity extends Activity {
     private void renderCard(Card card, int x_position, int y_position ) {
         ImageView imageView = new ImageView(this);
 
-        imageView.setImageResource(card.getResourceId());
+        imageView.setImageBitmap(CardUtilities.decodeSampledBitmapFromResource(getResources(), card.getResourceId(), 165, 165));
         imageView.setMaxHeight(165);
         imageView.setMaxWidth(165);
         imageView.setAdjustViewBounds(true);
@@ -296,6 +315,7 @@ public class GameActivity extends Activity {
             int resID = getResources().getIdentifier(card.toString(), "drawable", getPackageName());
             card.setResourceId(resID);
             createNewImageView(resID, linearLayout, card.getId());
+            LogginUtils.logHeap();
         }
     }
 
