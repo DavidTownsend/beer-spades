@@ -17,6 +17,12 @@
     <string name="eleven">11</string>
     <string name="twelve">12</string>
     <string name="thirteen">13</string>
+    <string name="made">Made</string>
+    <string name="bid">Bid</string>
+    <string name="points">Rd Pts</string>
+    <string name="bags">Bags</string>
+    <string name="total">Total</string>
+
     <string name="confirm">Confirm</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>

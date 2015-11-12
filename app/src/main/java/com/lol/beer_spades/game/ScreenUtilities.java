@@ -54,7 +54,7 @@ public class ScreenUtilities {
     }
 
     public static int getPlayer1XCoordinate(RelativeLayout playArea) {
-        return (int) (playArea.getX() + (playArea.getX() / 2));
+        return (int) (playArea.getX() / 3.5);
     }
 
     public static int getPlayer1YCoordinate(RelativeLayout playArea) {
@@ -66,11 +66,11 @@ public class ScreenUtilities {
     }
 
     public static int getPlayer2YCoordinate(RelativeLayout playArea) {
-        return (int) (playArea.getY() / 2);
+        return (int) (playArea.getY() / 2.5);
     }
 
     public static int getPlayer3XCoordinate(RelativeLayout playArea) {
-        return (int) (playArea.getX() / 2);
+        return (int) (playArea.getX() / 3.5);
     }
 
     public static int getPlayer3YCoordinate(RelativeLayout playArea) {
@@ -78,10 +78,10 @@ public class ScreenUtilities {
     }
 
     public static int getPlayer4XCoordinate(RelativeLayout playArea) {
-        return (int) playArea.getX();
+        return (int) (playArea.getX() / 1.8);
     }
 
     public static int getPlayer4YCoordinate(RelativeLayout playArea) {
-        return (int) (playArea.getY() / 2);
+        return (int) (playArea.getY() / 2.5);
     }
 }
