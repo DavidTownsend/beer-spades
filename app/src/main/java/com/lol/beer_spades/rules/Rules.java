@@ -11,8 +11,9 @@ import java.util.List;
  */
 public class Rules {
 
-    public static void cardsAllowedToPlay(List<Card> cards, SuitType suitType){
+    public static void cardsAllowedToPlay(List<Card> cards, Enum<SuitType> suitType, boolean ableToPlaySpades){
         boolean hasSuit = false;
+        boolean onlyHasSpades = true;
 
         if (suitType != null){
             for (Card card : cards){
@@ -20,6 +21,13 @@ public class Rules {
                     hasSuit = true;
                     break;
                 }
+            }
+        }
+
+        for (Card card: cards){
+            if(!SuitType.spades.equals(card.getSuitType())){
+                onlyHasSpades = false;
+                break;
             }
         }
 
@@ -33,15 +41,23 @@ public class Rules {
             }
         } else if (cards.size() == 13){
             for (Card card : cards){
-                if(SuitType.spades.equals(card.getSuitType())){
+                if(SuitType.spades.equals(card.getSuitType()) && !onlyHasSpades){
                     card.setAllowedToBePlayed(false);
                 } else {
                     card.setAllowedToBePlayed(true);
                 }
             }
-        } else {
+        } else if (suitType != null){
             for (Card card : cards){
                 card.setAllowedToBePlayed(true);
+            }
+        } else {
+            for (Card card : cards){
+                if(!ableToPlaySpades && SuitType.spades.equals(card.getSuitType()) && !onlyHasSpades){
+                    card.setAllowedToBePlayed(false);
+                } else {
+                    card.setAllowedToBePlayed(true);
+                }
             }
         }
     }

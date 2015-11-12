@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.lol.beer_spades.R;
 import com.lol.beer_spades.player.Player;
 import com.lol.beer_spades.render.BaseRenderActivity;
+import com.lol.beer_spades.rules.Rules;
 import com.lol.beer_spades.scoreboard.ScoreboardActivity;
 import com.lol.beer_spades.utils.CardUtilities;
 import com.lol.beer_spades.utils.LogginUtils;
@@ -43,6 +44,7 @@ public class GameActivity extends BaseRenderActivity {
     private Player player4;
     private List<Card> roundCards;
     private BidType selectedBid;
+    private boolean spadesBeenPlayed;
 
     @Override
     // Initialization
@@ -62,6 +64,7 @@ public class GameActivity extends BaseRenderActivity {
             roundCards = new ArrayList<>();
             aiAction = new ActionsByAI();
             display = getWindowManager().getDefaultDisplay();
+            spadesBeenPlayed = false;
 
             CardUtilities.dealCards(player1, player2, player3, player4);
 
@@ -107,6 +110,11 @@ public class GameActivity extends BaseRenderActivity {
             increaseWinnersTricks(card);
             collectRoundCards(view);
 
+            //if winning card is spade, set spadesbeenplayed to true
+            if(SuitType.spades.equals(card.getSuitType())){
+                spadesBeenPlayed = true;
+            }
+
             // If hand over show scoreboard
             if (player1.isHandOver()) {
                 Intent i = new Intent(getBaseContext(), ScoreboardActivity.class);
@@ -121,16 +129,21 @@ public class GameActivity extends BaseRenderActivity {
                 //TODO cleanup
                 RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.playing_area);
                 relativeLayout.setClickable(false);
+                Enum<SuitType> firstCardPlayedSuit = null;
                 if (StringUtils.equalsIgnoreCase(card.getPlayerName(), player2.getPlayerName())) {
-                    playAICard(player2.getCards(), ScreenUtilities.getPlayer2XCoordinate(relativeLayout), ScreenUtilities.getPlayer2YCoordinate(relativeLayout), relativeLayout);
+                    firstCardPlayedSuit = playAICard(player2.getCards(), ScreenUtilities.getPlayer2XCoordinate(relativeLayout), ScreenUtilities.getPlayer2YCoordinate(relativeLayout), relativeLayout).getSuitType();
                     playAICard(player3.getCards(), ScreenUtilities.getPlayer3XCoordinate(relativeLayout), ScreenUtilities.getPlayer3YCoordinate(relativeLayout), relativeLayout);
                     playAICard(player4.getCards(), ScreenUtilities.getPlayer4XCoordinate(relativeLayout), ScreenUtilities.getPlayer4YCoordinate(relativeLayout), relativeLayout);
                 } else if (StringUtils.equalsIgnoreCase(card.getPlayerName(), player3.getPlayerName())) {
-                    playAICard(player3.getCards(), ScreenUtilities.getPlayer3XCoordinate(relativeLayout), ScreenUtilities.getPlayer3YCoordinate(relativeLayout), relativeLayout);
+                    firstCardPlayedSuit = playAICard(player3.getCards(), ScreenUtilities.getPlayer3XCoordinate(relativeLayout), ScreenUtilities.getPlayer3YCoordinate(relativeLayout), relativeLayout).getSuitType();
                     playAICard(player4.getCards(), ScreenUtilities.getPlayer4XCoordinate(relativeLayout), ScreenUtilities.getPlayer4YCoordinate(relativeLayout), relativeLayout);
                 } else if (StringUtils.equalsIgnoreCase(card.getPlayerName(), player4.getPlayerName())) {
-                    playAICard(player4.getCards(), ScreenUtilities.getPlayer4XCoordinate(relativeLayout), ScreenUtilities.getPlayer4YCoordinate(relativeLayout), relativeLayout);
+                    firstCardPlayedSuit = playAICard(player4.getCards(), ScreenUtilities.getPlayer4XCoordinate(relativeLayout), ScreenUtilities.getPlayer4YCoordinate(relativeLayout), relativeLayout).getSuitType();
                 }
+
+                //Disable cards that cant be played
+                Rules.cardsAllowedToPlay(player1.getCards(), firstCardPlayedSuit, spadesBeenPlayed);
+                setupCardsInHand(player1.getCards());
             }
         }
     }
@@ -177,18 +190,21 @@ public class GameActivity extends BaseRenderActivity {
     }
 
     // Add a random AI card to the roundCards and playing area
-    private void playAICard(List<Card> playerHand, int x_position, int y_position, RelativeLayout relativeLayout) {
+    private Card playAICard(List<Card> playerHand, int x_position, int y_position, RelativeLayout relativeLayout) {
         Card card = aiAction.calculateNextCard(playerHand, roundCards);
         card.setResourceId(getResourceId(card.toString(),DRAWABLE));
         renderCard(card, x_position, y_position, relativeLayout);
 
         roundCards.add(card);
         playerHand.remove(card);
+
+        return card;
     }
 
     // Create the card images in player1's hand area
     private void drawInitialHand() {
         LinearLayout linearLayout = (LinearLayout) findViewById(R.id.hand_area);
+        Rules.cardsAllowedToPlay(player1.getCards(), null, spadesBeenPlayed);
 
         for (Card card : player1.getCards()) {
             ImageView imageView = new ImageView(this);
@@ -207,6 +223,7 @@ public class GameActivity extends BaseRenderActivity {
                 }
             });
 
+            disableCardInHand(imageView, card);
             linearLayout.addView(imageView);
         }
     }

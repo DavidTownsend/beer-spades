@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.view.Display;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,6 +54,7 @@ public abstract class BaseRenderActivity extends Activity{
         imageView.setId(card.getId());
         imageView.setPadding(3, 0, 3, 0);
         imageView.setLayoutParams(setupLayoutParams(x_position, y_position));
+        imageView.setBackgroundColor(Color.BLACK);
     }
 
     private RelativeLayout.LayoutParams setupLayoutParams(Integer x_position, Integer y_position){
@@ -130,5 +132,22 @@ public abstract class BaseRenderActivity extends Activity{
         }
 
         return inSampleSize;
+    }
+
+    protected void disableCardInHand(ImageView imageView, Card card){
+        if(!card.isAllowedToBePlayed()){
+            imageView.setAlpha(.7F);
+            imageView.setClickable(false);
+        }else{
+            imageView.setAlpha(1F);
+            imageView.setClickable(true);
+        }
+    }
+
+    protected void setupCardsInHand(List<Card> cards){
+        for(Card card : cards){
+            ImageView imageView = (ImageView) findViewById(card.getId());
+            disableCardInHand(imageView, card);
+        }
     }
 }
