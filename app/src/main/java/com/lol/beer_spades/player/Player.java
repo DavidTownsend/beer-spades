@@ -85,4 +85,8 @@ public class Player implements Serializable {
     public void setTotalPoints(Integer totalPoints) {
         this.totalPoints = totalPoints;
     }
+
+    public boolean isHandOver(){
+        return cards.size() == 0;
+    }
 }

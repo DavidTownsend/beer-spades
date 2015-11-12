@@ -1,4 +1,4 @@
-package com.lol.beer_spades.game;
+package com.lol.beer_spades.utils;
 
 import android.graphics.Point;
 import android.view.Display;

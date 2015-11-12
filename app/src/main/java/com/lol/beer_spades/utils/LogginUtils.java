@@ -2,7 +2,6 @@ package com.lol.beer_spades.utils;
 
 import android.os.Debug;
 import android.os.Environment;
-import android.util.Log;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -49,8 +48,8 @@ public class LogginUtils {
         df.setMaximumFractionDigits(2);
         df.setMinimumFractionDigits(2);
 
-        appendLog( "debug. =================================");
+        appendLog("debug. =================================");
         appendLog( "debug.heap native: allocated " + df.format(allocated) + "MB of " + df.format(available) + "MB (" + df.format(free) + "MB free)");
-        appendLog( "debug.memory: allocated: " + df.format(new Double(Runtime.getRuntime().totalMemory() / 1048576)) + "MB of " + df.format(new Double(Runtime.getRuntime().maxMemory() / 1048576)) + "MB (" + df.format(new Double(Runtime.getRuntime().freeMemory() / 1048576)) + "MB free)");
+        appendLog("debug.memory: allocated: " + df.format(new Double(Runtime.getRuntime().totalMemory() / 1048576)) + "MB of " + df.format(new Double(Runtime.getRuntime().maxMemory() / 1048576)) + "MB (" + df.format(new Double(Runtime.getRuntime().freeMemory() / 1048576)) + "MB free)");
     }
 }
