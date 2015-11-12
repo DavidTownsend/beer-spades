@@ -11,12 +11,14 @@ public class Card implements Comparable<Card>{
     private Integer cardNumber;
     private Integer resourceId;
     private boolean selected;
+    private boolean allowedToBePlayed;
     private String playerName;
 
     public Card (Integer id, Enum suitType, Integer cardNumber){
         this.suitType = suitType;
         this.cardNumber = cardNumber;
         this.id = id;
+        allowedToBePlayed = true;
     }
 
     public String toString(){
@@ -54,6 +56,15 @@ public class Card implements Comparable<Card>{
     public void setId(Integer id) {
         this.id = id;
     }
+
+    public boolean isAllowedToBePlayed() {
+        return allowedToBePlayed;
+    }
+
+    public void setAllowedToBePlayed(boolean allowedToBePlayed) {
+        this.allowedToBePlayed = allowedToBePlayed;
+    }
+
 
     @Override
     public int compareTo(Card o) {
