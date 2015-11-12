@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.widget.RelativeLayout;
@@ -77,7 +78,7 @@ public class ScoreboardActivity extends Activity {
     }
 
     private void addTableRowTextViews(TableRow scoreboardRow, Player player) {
-        scoreboardRow.addView(createTextView(player.getPlayerName(), 0));
+        scoreboardRow.addView(createTextViewWithLeftPadding(player.getPlayerName(), 0));
         scoreboardRow.addView(createTextView(StringUtils.EMPTY, player.getMade()));
         scoreboardRow.addView(createTextView(StringUtils.EMPTY, player.getBid()));
         scoreboardRow.addView(createTextView(player.getDisplayBags(), 0));
@@ -102,11 +103,18 @@ public class ScoreboardActivity extends Activity {
         textView.setLayoutParams(new TableRow.LayoutParams(0, 100, 1f));
         textView.setTextColor(Color.parseColor(("#FF0000")));
         textView.setTextSize(20);
+        textView.setGravity(Gravity.CENTER_HORIZONTAL);
         if (StringUtils.isNotEmpty(text)) {
             textView.setText(text);
         } else {
             textView.setText("" + intText);
         }
         return textView;
+    }
+
+    private TextView createTextViewWithLeftPadding(String text, int intText) {
+        TextView tv = createTextView(text, intText);
+        tv.setPadding(10,0,0,0);
+        return tv;
     }
 }

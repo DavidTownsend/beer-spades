@@ -78,13 +78,6 @@ public class GameActivity extends BaseRenderActivity {
         }
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        System.out.println("On Destory method");
-    }
-
     // Configure the center/playing area
     private void configurePlayingArea() {
         RelativeLayout playingArea = (RelativeLayout) findViewById(R.id.playing_area);
