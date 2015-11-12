@@ -13,6 +13,7 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import com.lol.beer_spades.MainMenuActivity;
 import com.lol.beer_spades.R;
 import com.lol.beer_spades.player.Player;
 import com.lol.beer_spades.render.BaseRenderActivity;
@@ -53,6 +54,14 @@ public class GameActivity extends BaseRenderActivity {
             super.onCreate(savedInstanceState);
             this.requestWindowFeature(Window.FEATURE_NO_TITLE);
             setContentView(R.layout.activity_game);
+
+            Bundle players = this.getIntent().getExtras();
+            if (players != null) {
+                player1 = (Player) players.getSerializable("p1");
+                player2 = (Player) players.getSerializable("p2");
+                player3 = (Player) players.getSerializable("p3");
+                player4 = (Player) players.getSerializable("p4");
+            }
 
             if (player1 == null) {
                 player1 = new Player("Yoda");
@@ -311,5 +320,12 @@ public class GameActivity extends BaseRenderActivity {
     private void updateP4BidsView() {
         TextView p4_tricks = (TextView) findViewById(R.id.p4_tricks);
         p4_tricks.setText(player4.getPlayerName() + "\n" + player4.getMade() + "/" + player4.getBid().toString());
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(GameActivity.this, MainMenuActivity.class));
+        finish();
     }
 }

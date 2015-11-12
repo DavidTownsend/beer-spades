@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import com.lol.beer_spades.MainMenuActivity;
 import com.lol.beer_spades.R;
 import com.lol.beer_spades.game.GameActivity;
 import com.lol.beer_spades.player.Player;
@@ -67,6 +68,10 @@ public class ScoreboardActivity extends Activity {
             public void onClick(View view) {
                 Intent i = new Intent(getBaseContext(), GameActivity.class);
                 Bundle players = new Bundle();
+                player1.clearBids();
+                player2.clearBids();
+                player3.clearBids();
+                player4.clearBids();
                 players.putSerializable("p1", player1);
                 players.putSerializable("p2", player2);
                 players.putSerializable("p3", player3);
@@ -114,7 +119,14 @@ public class ScoreboardActivity extends Activity {
 
     private TextView createTextViewWithLeftPadding(String text, int intText) {
         TextView tv = createTextView(text, intText);
-        tv.setPadding(10,0,0,0);
+        tv.setPadding(10, 0, 0, 0);
         return tv;
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(ScoreboardActivity.this, MainMenuActivity.class));
+        finish();
     }
 }

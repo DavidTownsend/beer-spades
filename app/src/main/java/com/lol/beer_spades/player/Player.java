@@ -89,4 +89,9 @@ public class Player implements Serializable {
     public boolean isHandOver(){
         return cards.size() == 0;
     }
+
+    public void clearBids(){
+        bid = 0;
+        made = 0;
+    }
 }
