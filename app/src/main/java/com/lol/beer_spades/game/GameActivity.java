@@ -91,6 +91,13 @@ public class GameActivity extends Activity {
         setupBidTable();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        System.out.println("On Destory method");
+    }
+
     // Configure the center/playing area
     private void configurePlayingArea() {
         RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.playing_area);
