@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.RelativeLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -14,7 +15,7 @@ import android.widget.TextView;
 import com.lol.beer_spades.MainMenuActivity;
 import com.lol.beer_spades.R;
 import com.lol.beer_spades.game.GameActivity;
-import com.lol.beer_spades.player.Player;
+import com.lol.beer_spades.model.Player;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -35,6 +36,7 @@ public class ScoreboardActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.activity_scoreboard);
 

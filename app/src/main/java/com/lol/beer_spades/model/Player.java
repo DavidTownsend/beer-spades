@@ -1,6 +1,6 @@
-package com.lol.beer_spades.player;
+package com.lol.beer_spades.model;
 
-import com.lol.beer_spades.game.Card;
+import com.lol.beer_spades.model.Card;
 
 import java.io.Serializable;
 import java.util.ArrayList;

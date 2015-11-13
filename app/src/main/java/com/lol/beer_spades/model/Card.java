@@ -1,4 +1,6 @@
-package com.lol.beer_spades.game;
+package com.lol.beer_spades.model;
+
+import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
@@ -7,6 +9,7 @@ import java.util.List;
  */
 public class Card implements Comparable<Card>{
     private Integer id;
+    @SerializedName("suitType")
     private Enum suitType;
     private Integer cardNumber;
     private Integer resourceId;

@@ -13,7 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.lol.beer_spades.R;
-import com.lol.beer_spades.game.Card;
+import com.lol.beer_spades.model.Card;
 import com.lol.beer_spades.utils.CardUtilities;
 import com.lol.beer_spades.utils.ScreenUtilities;
 

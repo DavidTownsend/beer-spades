@@ -1,8 +1,8 @@
 package com.lol.beer_spades.utils;
 
-import com.lol.beer_spades.game.Card;
-import com.lol.beer_spades.game.SuitType;
-import com.lol.beer_spades.player.Player;
+import com.lol.beer_spades.model.Card;
+import com.lol.beer_spades.model.SuitType;
+import com.lol.beer_spades.model.Player;
 
 import java.util.ArrayList;
 import java.util.Collections;

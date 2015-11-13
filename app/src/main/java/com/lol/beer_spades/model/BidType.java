@@ -1,4 +1,4 @@
-package com.lol.beer_spades.game;
+package com.lol.beer_spades.model;
 
 /**
  * Created by Schimm on 11/7/2015.

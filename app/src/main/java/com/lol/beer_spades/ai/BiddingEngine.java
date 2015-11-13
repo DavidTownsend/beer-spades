@@ -1,6 +1,7 @@
-package com.lol.beer_spades.game;
+package com.lol.beer_spades.ai;
 
-import com.lol.beer_spades.player.Player;
+import com.lol.beer_spades.model.Card;
+import com.lol.beer_spades.model.Player;
 
 import java.util.List;
 

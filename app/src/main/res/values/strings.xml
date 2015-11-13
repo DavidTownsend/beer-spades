@@ -26,4 +26,10 @@
     <string name="confirm">Confirm</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
+
+    <string name="newGame">New Game</string>
+    <string name="continueGame">Continue Game</string>
+    <string name="options">Game Options</string>
+    <string name="exitGame">Exit Game</string>
+
 </resources>

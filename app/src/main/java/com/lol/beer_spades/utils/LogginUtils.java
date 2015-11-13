@@ -15,7 +15,7 @@ import java.text.DecimalFormat;
 public class LogginUtils {
 
 
-    private static final String EXTERNAL_FILE_LOCATION = Environment.getExternalStorageDirectory().getAbsolutePath() +
+    public static final String EXTERNAL_FILE_LOCATION = Environment.getExternalStorageDirectory().getAbsolutePath() +
             File.separator + "LOL" + File.separator;
 
     public static void appendLog(String text) {

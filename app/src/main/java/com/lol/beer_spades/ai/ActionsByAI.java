@@ -1,5 +1,7 @@
-package com.lol.beer_spades.game;
+package com.lol.beer_spades.ai;
 
+import com.lol.beer_spades.model.Card;
+import com.lol.beer_spades.model.SuitType;
 import com.lol.beer_spades.utils.LogginUtils;
 
 import java.util.List;
@@ -11,7 +13,7 @@ public class ActionsByAI {
     private Card highestCardOnTable = null;
     private Card firstCardPlayed = null;
 
-    protected Card calculateNextCard(List<Card> AIHand, List<Card> cardsOnTable) {
+    public Card calculateNextCard(List<Card> AIHand, List<Card> cardsOnTable) {
         Card aiPlayedCard = null;
 
         if (cardsOnTable == null || cardsOnTable.isEmpty()) {

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -15,11 +16,17 @@ import android.widget.TextView;
 
 import com.lol.beer_spades.MainMenuActivity;
 import com.lol.beer_spades.R;
-import com.lol.beer_spades.player.Player;
+import com.lol.beer_spades.ai.ActionsByAI;
+import com.lol.beer_spades.ai.BiddingEngine;
+import com.lol.beer_spades.model.BidType;
+import com.lol.beer_spades.model.Card;
+import com.lol.beer_spades.model.Player;
+import com.lol.beer_spades.model.SuitType;
 import com.lol.beer_spades.render.BaseRenderActivity;
 import com.lol.beer_spades.rules.Rules;
 import com.lol.beer_spades.scoreboard.ScoreboardActivity;
 import com.lol.beer_spades.utils.CardUtilities;
+import com.lol.beer_spades.utils.FileUtilities;
 import com.lol.beer_spades.utils.LogginUtils;
 import com.lol.beer_spades.utils.ScreenUtilities;
 
@@ -38,7 +45,7 @@ public class GameActivity extends BaseRenderActivity {
     //TODO is this needed
     private static final String TAG = GameActivity.class.getSimpleName();
 
-    private ActionsByAI  aiAction;
+    private ActionsByAI aiAction;
     private Player player1;
     private Player player2;
     private Player player3;
@@ -53,6 +60,7 @@ public class GameActivity extends BaseRenderActivity {
         try {
             super.onCreate(savedInstanceState);
             this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
             setContentView(R.layout.activity_game);
 
             Bundle players = this.getIntent().getExtras();
@@ -201,7 +209,7 @@ public class GameActivity extends BaseRenderActivity {
     // Add a random AI card to the roundCards and playing area
     private Card playAICard(List<Card> playerHand, int x_position, int y_position, RelativeLayout relativeLayout) {
         Card card = aiAction.calculateNextCard(playerHand, roundCards);
-        card.setResourceId(getResourceId(card.toString(),DRAWABLE));
+        card.setResourceId(getResourceId(card.toString(), DRAWABLE));
         renderCard(card, x_position, y_position, relativeLayout);
 
         roundCards.add(card);
@@ -234,6 +242,7 @@ public class GameActivity extends BaseRenderActivity {
 
             disableCardInHand(imageView, card);
             linearLayout.addView(imageView);
+            linearLayout.invalidate();
         }
     }
 
@@ -263,10 +272,12 @@ public class GameActivity extends BaseRenderActivity {
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                TableLayout bidTableOnConfirm = (TableLayout) findViewById(R.id.bidTable);
-                bidTableOnConfirm.setVisibility(View.GONE);
-                player1.setBid(selectedBid.getValue());
-                updateBidsView();
+                if (selectedBid != null) {
+                    TableLayout bidTableOnConfirm = (TableLayout) findViewById(R.id.bidTable);
+                    bidTableOnConfirm.setVisibility(View.GONE);
+                    player1.setBid(selectedBid.getValue());
+                    updateBidsView();
+                }
             }
         });
     }
@@ -325,6 +336,12 @@ public class GameActivity extends BaseRenderActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        List<Player> players = new ArrayList<>();
+        players.add(player1);
+        players.add(player2);
+        players.add(player3);
+        players.add(player4);
+        FileUtilities.sendDataToFile(players);
         startActivity(new Intent(GameActivity.this, MainMenuActivity.class));
         finish();
     }
