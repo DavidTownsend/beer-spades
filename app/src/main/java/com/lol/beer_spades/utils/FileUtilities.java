@@ -6,8 +6,11 @@ import android.os.Bundle;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import com.lol.beer_spades.game.GameActivity;
+import com.lol.beer_spades.model.Card;
 import com.lol.beer_spades.model.Player;
 
 import java.io.BufferedReader;
@@ -46,22 +49,29 @@ public class FileUtilities extends Activity {
         return null;
     }
 
-    public static void sendDataToFile(List<Player> allPlayers){
+    //TODO this is not working some things in here are for testing.
+    public static void sendDataToFile(List<Player> allPlayers) {
         File jsonFile = retrieveJsonFile();
-        Type collectionType = new TypeToken<List<Player>>() {}.getType();
-        Gson gson = new Gson();
+        Type collectionType = new TypeToken<List<Card>>() {
+        }.getType();
 
-        // convert java object to JSON format,
-        // and returned as JSON formatted string
-        String json = gson.toJson(allPlayers, collectionType);
+        GsonBuilder builder = new GsonBuilder();
+
+        Gson gson = builder.enableComplexMapKeySerialization().setPrettyPrinting().create();
 
         try {
+
+
+            String json = gson.toJson(allPlayers.get(0).getCards(), collectionType);
+            List<Card> allPlayersFromJson = gson.fromJson(json, collectionType);
+
+
             //write converted json data to a file named "file.json"
             FileWriter writer = new FileWriter(jsonFile, false);
             writer.write(json);
             writer.close();
 
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

@@ -7,5 +7,5 @@ import com.google.gson.annotations.SerializedName;
  */
 // TODO Use constants instead they require less resources
 public enum SuitType {
-    @SerializedName("0") spades, @SerializedName("1") hearts, @SerializedName("2")  clubs, @SerializedName("3") diamonds
+    spades, hearts, clubs, diamonds
 }

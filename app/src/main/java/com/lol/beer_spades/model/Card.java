@@ -9,7 +9,6 @@ import java.util.List;
  */
 public class Card implements Comparable<Card>{
     private Integer id;
-    @SerializedName("suitType")
     private Enum suitType;
     private Integer cardNumber;
     private Integer resourceId;
@@ -78,12 +77,12 @@ public class Card implements Comparable<Card>{
         return rankCom != 0 ? rankCom : cardNumber.compareTo(o.cardNumber);
     }
 
-    public static Card pickWinner4(List<Card> roundCards) {
+    public static Card pickWinner(List<Card> roundCards) {
         if (roundCards == null || roundCards.size() == 0) {
             return null;
         }
         Card winningCard = roundCards.get(0);
-        for (int i=1; i<4; i++) {
+        for (int i=1; i < roundCards.size(); i++) {
             winningCard = pickWinner2(winningCard, roundCards.get(i));
         }
         return winningCard;

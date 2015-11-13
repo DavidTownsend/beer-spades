@@ -123,7 +123,7 @@ public class GameActivity extends BaseRenderActivity {
             playCard(selectedCard);
             // If there are cards in the center
         } else if (roundCards != null && roundCards.size() != 0) {
-            Card card = Card.pickWinner4(roundCards);
+            Card card = Card.pickWinner(roundCards);
             increaseWinnersTricks(card);
             collectRoundCards(view);
 

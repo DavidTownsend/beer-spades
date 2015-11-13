@@ -1,5 +1,7 @@
 package com.lol.beer_spades.ai;
 
+import android.util.Log;
+
 import com.lol.beer_spades.model.Card;
 import com.lol.beer_spades.model.SuitType;
 import com.lol.beer_spades.utils.LogginUtils;
@@ -10,6 +12,7 @@ import java.util.List;
  * Created by Steven on 11/6/2015.
  */
 public class ActionsByAI {
+    private static final String TAG = ActionsByAI.class.getSimpleName();
     private Card highestCardOnTable = null;
     private Card firstCardPlayed = null;
 
@@ -19,30 +22,30 @@ public class ActionsByAI {
         if (cardsOnTable == null || cardsOnTable.isEmpty()) {
             highestCardOnTable = null;
             aiPlayedCard = playHighestCardInHand(AIHand);
-            logAiAction(aiPlayedCard, AIHand, cardsOnTable);
+            firstCardPlayed = aiPlayedCard;
+            logAiAction(aiPlayedCard, AIHand, cardsOnTable, "Play HighestCard in hand");
             return aiPlayedCard;
-        } else {
-            //This is to set highest card if player starts the round.
-            if (highestCardOnTable == null) {
-                highestCardOnTable = cardsOnTable.get(0);
-            }
+        } else if (cardsOnTable.size() == 1){
+            highestCardOnTable = cardsOnTable.get(0);
             firstCardPlayed = cardsOnTable.get(0);
+        } else {
+            highestCardOnTable = Card.pickWinner(cardsOnTable);
         }
 
         if (haveSameSuit(AIHand)) {
             if (haveHigherCard(AIHand, cardsOnTable)) {
                 aiPlayedCard = highestCardOnTable;
-                logAiAction(aiPlayedCard, AIHand, cardsOnTable);
+                logAiAction(aiPlayedCard, AIHand, cardsOnTable, "Have same suit and play higher card");
                 return aiPlayedCard;
             }
 
             aiPlayedCard = lowestCardOfThatSuit(firstCardPlayed.getSuitType(), AIHand);
-            logAiAction(aiPlayedCard, AIHand, cardsOnTable);
+            logAiAction(aiPlayedCard, AIHand, cardsOnTable, "Does not have higher card, play lowest card of suit");
             return aiPlayedCard;
         }
 
         aiPlayedCard = lowestCardInHand(AIHand);
-        logAiAction(aiPlayedCard, AIHand, cardsOnTable);
+        logAiAction(aiPlayedCard, AIHand, cardsOnTable, "play lowest card in hand");
         return aiPlayedCard;
     }
 
@@ -145,9 +148,10 @@ public class ActionsByAI {
     }
 
 
-    private void logAiAction(Card cardPlayed, List<Card> aiHand, List<Card> cardsOnTable) {
+    private void logAiAction(Card cardPlayed, List<Card> aiHand, List<Card> cardsOnTable, String methodToDetermineCard) {
         StringBuilder sb = new StringBuilder();
-        sb.append("AI card played: " + cardPlayed.toString() + ", Cards In AI HAND: ");
+        sb.append("AI card played: " + cardPlayed.toString() + " HighestCardOnTable: " + highestCardOnTable.toString());
+        sb.append(" FirstCardPlayed: " + firstCardPlayed + " Method to Determine Card: " + methodToDetermineCard + ", Cards In AI HAND: ");
         for (Card card : aiHand) {
             sb.append(card.toString() + ", ");
         }
@@ -156,6 +160,7 @@ public class ActionsByAI {
             sb.append(card.toString() + ", ");
         }
         sb.append("\n");
+        Log.e(TAG, sb.toString());
         LogginUtils.appendLog(sb.toString());
     }
 }
