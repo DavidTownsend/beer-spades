@@ -2,12 +2,13 @@ package com.lol.beer_spades.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by davidtownsend on 11/5/15.
  */
-public class Card implements Comparable<Card>{
+public class Card implements Comparable<Card>, Serializable{
     private Integer id;
     private Enum suitType;
     private Integer cardNumber;

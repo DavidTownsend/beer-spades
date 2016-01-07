@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.lol.beer_spades.bid.BidActivity;
 import com.lol.beer_spades.game.GameActivity;
 import com.lol.beer_spades.model.Player;
 import com.lol.beer_spades.utils.FileUtilities;
@@ -25,7 +26,7 @@ public class MainMenuActivity extends Activity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_mainmenu);
 
-        setActivityLaunchingClickListener(R.id.newGame, GameActivity.class);
+        setActivityLaunchingClickListener(R.id.newGame, BidActivity.class);
         //TODO still trying to figure this out
         //setResumeActivityLaunchingClickListener(R.id.continueGame, GameActivity.class);
     }

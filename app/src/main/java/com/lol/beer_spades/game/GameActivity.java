@@ -71,25 +71,15 @@ public class GameActivity extends BaseRenderActivity {
                 player4 = (Player) players.getSerializable("p4");
             }
 
-            if (player1 == null) {
-                player1 = new Player("Yoda");
-                player2 = new Player("Luke");
-                player3 = new Player("Anikan");
-                player4 = new Player("Ja Ja");
-            }
-
             roundCards = new ArrayList<>();
             aiAction = new ActionsByAI();
             display = getWindowManager().getDefaultDisplay();
             spadesBeenPlayed = false;
 
-            CardUtilities.dealCards(player1, player2, player3, player4);
-
             configureHandArea();
             drawInitialHand();
             configurePlayingArea();
-            setAIBids();
-            setupBidTable();
+            updateBidsView();
 
         }catch(Throwable e){
             Log.e(TAG, e.getMessage());
@@ -220,7 +210,7 @@ public class GameActivity extends BaseRenderActivity {
 
     // Create the card images in player1's hand area
     private void drawInitialHand() {
-        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.hand_area);
+        LinearLayout handArea = (LinearLayout) findViewById(R.id.hand_area);
         Rules.cardsAllowedToPlay(player1.getCards(), null, spadesBeenPlayed);
 
         for (Card card : player1.getCards()) {
@@ -234,15 +224,15 @@ public class GameActivity extends BaseRenderActivity {
                     RelativeLayout playingArea = (RelativeLayout) findViewById(R.id.playing_area);
                     TableLayout bidArea = (TableLayout) findViewById(R.id.bidTable);
                     // No cards in the center and bid selection isn't viewable
-                    if (roundCards.size() != 4 & bidArea.getVisibility() == View.GONE) {
+                    if (roundCards.size() != 4) {
                         selectHumanPlayerCard(view, playingArea, player1.getCards());
                     }
                 }
             });
 
             disableCardInHand(imageView, card);
-            linearLayout.addView(imageView);
-            linearLayout.invalidate();
+            handArea.addView(imageView);
+
         }
     }
 
@@ -250,60 +240,6 @@ public class GameActivity extends BaseRenderActivity {
     private void collectRoundCards(View playingAreaView) {
         ((RelativeLayout) playingAreaView).removeAllViews();
         roundCards.clear();
-    }
-
-    private void setupBidTable() {
-        TableLayout bidTable = (TableLayout) findViewById(R.id.bidTable);
-        bidTable.setVisibility(View.VISIBLE);
-
-        // Dbl Nil - 1
-        setupOnClickForBidButtons((TableRow) findViewById(R.id.bidRow1));
-
-        // 2 - 5
-        setupOnClickForBidButtons((TableRow) findViewById(R.id.bidRow2));
-
-        // 6 - 9
-        setupOnClickForBidButtons((TableRow) findViewById(R.id.bidRow3));
-
-        // 10 - 13
-        setupOnClickForBidButtons((TableRow) findViewById(R.id.bidRow4));
-
-        Button confirmButton = (Button) findViewById(R.id.submitBid);
-        confirmButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (selectedBid != null) {
-                    TableLayout bidTableOnConfirm = (TableLayout) findViewById(R.id.bidTable);
-                    bidTableOnConfirm.setVisibility(View.GONE);
-                    player1.setBid(selectedBid.getValue());
-                    updateBidsView();
-                }
-            }
-        });
-    }
-
-    private void setupOnClickForBidButtons(TableRow bidRow) {
-        for (int i = 0; i < 4; i++) {
-            Button bidButton = (Button) bidRow.getChildAt(i);
-            bidButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (selectedBid != null) {
-                        Button prevButton = (Button) findViewById(getResourceId(selectedBid.getButtonId(), ID));
-                        prevButton.setBackground(getResources().getDrawable(R.drawable.button));
-                    }
-                    Button viewButton = (Button) view;
-                    viewButton.setBackground(getResources().getDrawable(R.drawable.button_selected));
-                    selectedBid = BidType.findBidType(viewButton.getText().toString());
-                }
-            });
-        }
-    }
-
-    private void setAIBids(){
-        BiddingEngine.setBid(player2);
-        BiddingEngine.setBid(player3);
-        BiddingEngine.setBid(player4);
     }
 
     private void updateBidsView(){

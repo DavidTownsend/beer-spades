@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="fill_parent"
+android:layout_height="fill_parent"
+android:orientation="horizontal"
+tools:context=".BidActivity">
+
+<ImageView
+    android:id="@+id/imageView1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scaleType="centerCrop"
+    android:src="@drawable/poker_table" />
+
+<TableLayout
+    android:id="@+id/bidTable"
+    android:layout_width="275dp"
+    android:layout_height="275dp"
+    android:layout_centerVertical="true"
+    android:layout_centerHorizontal="true"
+    android:visibility="invisible">
+
+    <TableRow
+        android:gravity="center">
+        <TextView
+            android:text="@string/placeBid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#FF0000"
+            android:textSize="40sp" />
+    </TableRow>
+    <TableRow
+        android:id="@+id/bidRow1">
+        <Button
+            android:id="@+id/nilBid"
+            android:text="@string/nil"
+            android:layout_height="40dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/button"/>
+        <Button
+            android:id="@+id/doubleNilBid"
+            android:text="@string/doubleNil"
+            android:layout_height="40dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/button"/>
+        <Button
+            android:id="@+id/zeroBid"
+            android:text="@string/zero"
+            android:layout_height="40dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/button"/>
+        <Button
+            android:id="@+id/oneBid"
+            android:text="@string/one"
+            android:layout_height="40dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/button"/>
+    </TableRow>
+    <TableRow
+        android:id="@+id/bidRow2">
+        <Button
+            android:id="@+id/twoBid"
+            android:text="@string/two"
+            android:layout_height="40dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/button"/>
+        <Button
+            android:id="@+id/threeBid"
+            android:text="@string/three"
+            android:layout_height="40dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/button"/>
+        <Button
+            android:id="@+id/fourBid"
+            android:text="@string/four"
+            android:layout_height="40dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/button"/>
+        <Button
+            android:id="@+id/fiveBid"
+            android:text="@string/five"
+            android:layout_height="40dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/button"/>
+    </TableRow>
+    <TableRow
+        android:id="@+id/bidRow3">
+        <Button
+            android:id="@+id/sixBid"
+            android:text="@string/six"
+            android:layout_height="40dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/button"/>
+        <Button
+            android:id="@+id/sevenBid"
+            android:text="@string/seven"
+            android:layout_height="40dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/button"/>
+        <Button
+            android:id="@+id/eightBid"
+            android:text="@string/eight"
+            android:layout_height="40dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/button"/>
+        <Button
+            android:id="@+id/nineBid"
+            android:text="@string/nine"
+            android:layout_height="40dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/button"/>
+    </TableRow>
+    <TableRow
+        android:id="@+id/bidRow4">
+        <Button
+            android:id="@+id/tenBid"
+            android:text="@string/ten"
+            android:layout_height="40dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/button"/>
+        <Button
+            android:id="@+id/elevenBid"
+            android:text="@string/eleven"
+            android:layout_height="40dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/button"/>
+        <Button
+            android:id="@+id/twelveBid"
+            android:text="@string/twelve"
+            android:layout_height="40dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/button"/>
+        <Button
+            android:id="@+id/thirteenBid"
+            android:text="@string/thirteen"
+            android:layout_height="40dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/button"/>
+    </TableRow>
+    <TableRow>
+        <Button
+            android:id="@+id/submitBid"
+            android:text="@string/confirm"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/button"/>
+    </TableRow>
+</TableLayout>
+
+<LinearLayout
+    android:id="@+id/hand_area"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:layout_alignParentBottom="true"
+    android:gravity="center|bottom"
+    android:orientation="horizontal"
+    tools:ignore="UselessParent"/>
+
+</RelativeLayout>

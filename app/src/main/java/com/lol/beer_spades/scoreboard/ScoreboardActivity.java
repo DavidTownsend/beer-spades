@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.lol.beer_spades.MainMenuActivity;
 import com.lol.beer_spades.R;
+import com.lol.beer_spades.bid.BidActivity;
 import com.lol.beer_spades.game.GameActivity;
 import com.lol.beer_spades.model.Player;
 
@@ -68,7 +69,7 @@ public class ScoreboardActivity extends Activity {
         relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getBaseContext(), GameActivity.class);
+                Intent i = new Intent(getBaseContext(), BidActivity.class);
                 Bundle players = new Bundle();
                 player1.clearBids();
                 player2.clearBids();
