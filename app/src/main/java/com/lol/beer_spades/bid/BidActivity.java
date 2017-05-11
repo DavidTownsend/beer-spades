@@ -115,7 +115,7 @@ public class BidActivity extends BaseRenderActivity {
                 if (selectedBid != null) {
                     //TableLayout bidTableOnConfirm = (TableLayout) findViewById(R.id.bidTable);
                     //bidTableOnConfirm.setVisibility(View.GONE);
-                    player1.setBid(selectedBid.getValue());
+                    player1.setBid(selectedBid);
                     removeAllCards(view);
                     Intent i = new Intent(getBaseContext(), GameActivity.class);
                     Bundle players = new Bundle();

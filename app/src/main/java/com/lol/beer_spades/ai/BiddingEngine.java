@@ -1,5 +1,6 @@
 package com.lol.beer_spades.ai;
 
+import com.lol.beer_spades.model.BidType;
 import com.lol.beer_spades.model.Card;
 import com.lol.beer_spades.model.Player;
 
@@ -9,7 +10,7 @@ import java.util.List;
  * Created by davidtownsend on 11/7/15.
  */
 public class BiddingEngine {
-    private static Integer calculateBid(List<Card> cards){
+    private static BidType calculateBid(List<Card> cards){
         Double bid = 0.0;
 
         for(Card card : cards){
@@ -24,7 +25,7 @@ public class BiddingEngine {
             }
         }
 
-        return (int) Math.round(bid);
+        return new BidType((int)Math.round(bid), null);
     }
 
     public static void setBid(Player player){

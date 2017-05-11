@@ -15,15 +15,8 @@ import android.widget.TextView;
 import com.lol.beer_spades.MainMenuActivity;
 import com.lol.beer_spades.R;
 import com.lol.beer_spades.bid.BidActivity;
-import com.lol.beer_spades.game.GameActivity;
 import com.lol.beer_spades.gameover.GameOverActivity;
 import com.lol.beer_spades.model.Player;
-
-import org.apache.commons.lang3.StringUtils;
-
-import java.util.ArrayList;
-import java.util.List;
-
 
 /**
  * Created by Schimm on 11/7/2015.
@@ -77,10 +70,6 @@ public class ScoreboardActivity extends Activity {
                 public void onClick(View view) {
                     Intent i = new Intent(getBaseContext(), GameOverActivity.class);
                     Bundle players = new Bundle();
-                    player1.clearBids();
-                    player2.clearBids();
-                    player3.clearBids();
-                    player4.clearBids();
                     players.putSerializable("p1", player1);
                     players.putSerializable("p2", player2);
                     players.putSerializable("p3", player3);
@@ -96,10 +85,10 @@ public class ScoreboardActivity extends Activity {
                 public void onClick(View view) {
                     Intent i = new Intent(getBaseContext(), BidActivity.class);
                     Bundle players = new Bundle();
-                    player1.clearBids();
-                    player2.clearBids();
-                    player3.clearBids();
-                    player4.clearBids();
+                    player1.startNewRound();
+                    player2.startNewRound();
+                    player3.startNewRound();
+                    player4.startNewRound();
                     players.putSerializable("p1", player1);
                     players.putSerializable("p2", player2);
                     players.putSerializable("p3", player3);
@@ -112,49 +101,67 @@ public class ScoreboardActivity extends Activity {
     }
 
     private boolean isGameOver() {
-        if (player1.enoughPointsToWin() || player2.enoughPointsToWin() || player3.enoughPointsToWin() || player4.enoughPointsToWin()) {
-            return true;
-        }
-        return false;
+        return (player1.enoughPointsToWin() || player2.enoughPointsToWin() || player3.enoughPointsToWin() || player4.enoughPointsToWin());
     }
 
     private void addTableRowTextViews(TableRow scoreboardRow, Player player) {
-        scoreboardRow.addView(createTextViewWithLeftPadding(player.getPlayerName(), 0));
-        scoreboardRow.addView(createTextView(StringUtils.EMPTY, player.getMade()));
-        scoreboardRow.addView(createTextView(StringUtils.EMPTY, player.getBid()));
-        scoreboardRow.addView(createTextView(player.getDisplayBags(), 0));
-        scoreboardRow.addView(createTextView(StringUtils.EMPTY, player.getRoundPoints()));
-        scoreboardRow.addView(createTextView(StringUtils.EMPTY, player.getTotalPoints()));
+        scoreboardRow.addView(createTextViewWithLeftPadding(player.getPlayerName()));
+        scoreboardRow.addView(createTextView("" + player.getMade()));
+        scoreboardRow.addView(createTextView(player.getBid().getDisplayValue()));
+        scoreboardRow.addView(createTextView(player.getDisplayBags()));
+        scoreboardRow.addView(createTextView("" + player.getRoundPoints()));
+        scoreboardRow.addView(createTextView("" + player.getTotalPoints()));
     }
 
     private void assignPoints(Player player) {
-        if (player.getMade() < player.getBid()) {
+        if (player.bidNil()) {
+            if (player.getMade() != 0) {
+                player.setRoundPoints(-100);
+                player.setRoundBags(player.getMade());
+            }
+            else {
+                player.setRoundPoints(100);
+                player.setRoundBags(0);
+            }
+        }
+        else if (player.bidDoubleNil()) {
+            if (player.getMade() != 0) {
+                player.setRoundPoints(-200);
+                player.setRoundBags(player.getMade());
+            }
+            else {
+                player.setRoundPoints(200);
+                player.setRoundBags(0);
+            }
+        }
+        else if (player.getMade() < player.getBid().getValue()) {
             player.setRoundBags(0);
-            player.setRoundPoints(player.getBid() * -10);
+            player.setRoundPoints(player.getBid().getValue() * -10);
         } else {
-            player.setRoundBags(player.getMade() - player.getBid());
-            player.setRoundPoints(player.getBid() * 10 + player.getRoundBags());
+            player.setRoundBags(player.getMade() - player.getBid().getValue());
+            player.setRoundPoints(player.getBid().getValue() * 10 + player.getRoundBags());
         }
         player.setTotalBags(player.getRoundBags() + player.getTotalBags());
         player.setTotalPoints(player.getRoundPoints() + player.getTotalPoints());
+
+        if (player.getTotalBags() >= 10) {
+            player.setTotalPoints(player.getTotalPoints() - 100);
+            player.setTotalBags(player.getTotalBags() - 10);
+        }
     }
 
-    private TextView createTextView(String text, int intText) {
+    private TextView createTextView(String text) {
         TextView textView = new TextView(this);
         textView.setLayoutParams(new TableRow.LayoutParams(0, 100, 1f));
         textView.setTextColor(Color.parseColor(("#FF0000")));
         textView.setTextSize(20);
         textView.setGravity(Gravity.CENTER_HORIZONTAL);
-        if (StringUtils.isNotEmpty(text)) {
-            textView.setText(text);
-        } else {
-            textView.setText("" + intText);
-        }
+        textView.setText(text);
         return textView;
     }
 
-    private TextView createTextViewWithLeftPadding(String text, int intText) {
-        TextView tv = createTextView(text, intText);
+    private TextView createTextViewWithLeftPadding(String text) {
+        TextView tv = createTextView(text);
         tv.setPadding(10, 0, 0, 0);
         return tv;
     }
