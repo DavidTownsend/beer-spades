@@ -5,7 +5,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="horizontal"
-    tools:context=".ScoreboardActivity">
+    tools:context=".scoreboard.ScoreboardActivity">
 
     <ImageView
         android:id="@+id/imageView1"
