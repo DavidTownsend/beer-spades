@@ -2,11 +2,14 @@ package com.lol.beer_spades.gameover;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.RelativeLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.lol.beer_spades.MainMenuActivity;
@@ -44,8 +47,9 @@ public class GameOverActivity extends Activity {
 
         Player winner = findWinner();
 
-        TextView winnerName = (TextView) findViewById(R.id.winnerName);
-        winnerName.setText("Congratulations " + winner.getPlayerName());
+        TableRow winnerRow = (TableRow) findViewById(R.id.gameOverRow);
+
+        winnerRow.addView(createTextView(winner.getPlayerName()));
 
         player1.gameOver();
         player2.gameOver();
@@ -84,5 +88,15 @@ public class GameOverActivity extends Activity {
             winner = player4;
         }
         return winner;
+    }
+
+    private TextView createTextView(String winnerName) {
+        TextView textView = new TextView(this);
+        textView.setLayoutParams(new TableRow.LayoutParams(0, 100, 1f));
+        textView.setTextColor(Color.parseColor(("#FF0000")));
+        textView.setTextSize(20);
+        textView.setGravity(Gravity.CENTER_HORIZONTAL);
+        textView.setText("Congratulations " + winnerName);
+        return textView;
     }
 }
