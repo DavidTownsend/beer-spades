@@ -16,9 +16,13 @@ import com.lol.beer_spades.MainMenuActivity;
 import com.lol.beer_spades.R;
 import com.lol.beer_spades.bid.BidActivity;
 import com.lol.beer_spades.game.GameActivity;
+import com.lol.beer_spades.gameover.GameOverActivity;
 import com.lol.beer_spades.model.Player;
 
 import org.apache.commons.lang3.StringUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -66,23 +70,52 @@ public class ScoreboardActivity extends Activity {
 
         RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.scoreboardRelativeLayout);
         relativeLayout.setClickable(true);
-        relativeLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(getBaseContext(), BidActivity.class);
-                Bundle players = new Bundle();
-                player1.clearBids();
-                player2.clearBids();
-                player3.clearBids();
-                player4.clearBids();
-                players.putSerializable("p1", player1);
-                players.putSerializable("p2", player2);
-                players.putSerializable("p3", player3);
-                players.putSerializable("p4", player4);
-                i.putExtras(players);
-                startActivity(i);
-            }
-        });
+
+        if (isGameOver()) {
+            relativeLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent i = new Intent(getBaseContext(), GameOverActivity.class);
+                    Bundle players = new Bundle();
+                    player1.clearBids();
+                    player2.clearBids();
+                    player3.clearBids();
+                    player4.clearBids();
+                    players.putSerializable("p1", player1);
+                    players.putSerializable("p2", player2);
+                    players.putSerializable("p3", player3);
+                    players.putSerializable("p4", player4);
+                    i.putExtras(players);
+                    startActivity(i);
+                }
+            });
+        }
+        else {
+            relativeLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent i = new Intent(getBaseContext(), BidActivity.class);
+                    Bundle players = new Bundle();
+                    player1.clearBids();
+                    player2.clearBids();
+                    player3.clearBids();
+                    player4.clearBids();
+                    players.putSerializable("p1", player1);
+                    players.putSerializable("p2", player2);
+                    players.putSerializable("p3", player3);
+                    players.putSerializable("p4", player4);
+                    i.putExtras(players);
+                    startActivity(i);
+                }
+            });
+        }
+    }
+
+    private boolean isGameOver() {
+        if (player1.enoughPointsToWin() || player2.enoughPointsToWin() || player3.enoughPointsToWin() || player4.enoughPointsToWin()) {
+            return true;
+        }
+        return false;
     }
 
     private void addTableRowTextViews(TableRow scoreboardRow, Player player) {

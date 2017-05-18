@@ -31,5 +31,7 @@
     <string name="continueGame">Continue Game</string>
     <string name="options">Game Options</string>
     <string name="exitGame">Exit Game</string>
-
+    <string name="mainMenu">Main Menu</string>
+    <string name="winner">Winner</string>
 </resources>
+
