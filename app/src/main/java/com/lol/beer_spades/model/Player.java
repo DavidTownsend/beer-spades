@@ -12,7 +12,7 @@ import java.util.List;
 public class Player implements Serializable {
     private static final int POINTS_TO_WIN = 100;
     private List<Card> cards;
-    private Integer bid = 0;
+    private BidType bid;
     private Integer made = 0;
     private String playerName;
     private Integer roundPoints = 0;
@@ -26,32 +26,47 @@ public class Player implements Serializable {
 
     public Player (String playerName) {
         cards = new ArrayList<>();
-        bid = 0;
-        made = 0;
         this.playerName = playerName;
     }
 
     public void gameOver() {
-        clearBids();
-        roundPoints = 0;
-        roundBags = 0;
+        startNewRound();
         totalBags = 0;
         totalPoints = 0;
     }
 
+    public void startNewRound() {
+        bid = null;
+        made = 0;
+        roundPoints = 0;
+        roundBags = 0;
+    }
+
+    public boolean bidNil() {
+        if (BidType.NIL.getValue() == bid.getValue())
+            return true;
+        return false;
+    }
+
+    public boolean bidDoubleNil() {
+        if (BidType.DOUBLENIL.getValue() == bid.getValue())
+            return true;
+        return false;
+    }
+
     public boolean enoughPointsToWin() {
-        return (totalPoints > POINTS_TO_WIN);
+        return (totalPoints >= POINTS_TO_WIN);
     }
 
     public void increaseMade() {
         made += 1;
     }
 
-    public Integer getBid() {
+    public BidType getBid() {
         return bid;
     }
 
-    public void setBid(Integer bid) {
+    public void setBid(BidType bid) {
         this.bid = bid;
     }
 
@@ -105,10 +120,5 @@ public class Player implements Serializable {
 
     public boolean isHandOver(){
         return cards.size() == 0;
-    }
-
-    public void clearBids(){
-        bid = 0;
-        made = 0;
     }
 }

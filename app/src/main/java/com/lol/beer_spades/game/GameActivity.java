@@ -251,22 +251,22 @@ public class GameActivity extends BaseRenderActivity {
 
     private void updateP1BidsView() {
         TextView p1_tricks = (TextView) findViewById(R.id.p1_tricks);
-        p1_tricks.setText(player1.getPlayerName() + "\n" + player1.getMade() + "/" + player1.getBid().toString());
+        p1_tricks.setText(player1.getPlayerName() + "\n" + player1.getMade() + "/" + player1.getBid().getDisplayValue());
     }
 
     private void updateP2BidsView() {
         TextView p2_tricks = (TextView) findViewById(R.id.p2_tricks);
-        p2_tricks.setText(player2.getPlayerName() + "\n" + player2.getMade() + "/" + player2.getBid().toString());
+        p2_tricks.setText(player2.getPlayerName() + "\n" + player2.getMade() + "/" + player2.getBid().getDisplayValue());
     }
 
     private void updateP3BidsView() {
         TextView p3_tricks = (TextView) findViewById(R.id.p3_tricks);
-        p3_tricks.setText(player3.getPlayerName() + "\n" + player3.getMade() + "/" + player3.getBid().toString());
+        p3_tricks.setText(player3.getPlayerName() + "\n" + player3.getMade() + "/" + player3.getBid().getDisplayValue());
     }
 
     private void updateP4BidsView() {
         TextView p4_tricks = (TextView) findViewById(R.id.p4_tricks);
-        p4_tricks.setText(player4.getPlayerName() + "\n" + player4.getMade() + "/" + player4.getBid().toString());
+        p4_tricks.setText(player4.getPlayerName() + "\n" + player4.getMade() + "/" + player4.getBid().getDisplayValue());
     }
 
     @Override

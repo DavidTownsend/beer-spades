@@ -1,11 +1,13 @@
 package com.lol.beer_spades.model;
 
+import java.io.Serializable;
+
 /**
  * Created by Schimm on 11/7/2015.
  */
-public class BidType {
-    private static final BidType NIL = new BidType(-1, "nilBid");
-    private static final BidType DOUBLENIL = new BidType(-10, "doubleNilBid");
+public class BidType implements Serializable {
+    public static final BidType NIL = new BidType(-1, "nilBid");
+    public static final BidType DOUBLENIL = new BidType(-10, "doubleNilBid");
     private static final BidType ZERO = new BidType(0, "zeroBid");
     private static final BidType ONE = new BidType(1, "oneBid");
     private static final BidType TWO = new BidType(2, "twoBid");
@@ -27,6 +29,16 @@ public class BidType {
     public BidType(int value, String buttonId) {
         this.value = value;
         this.buttonId = buttonId;
+    }
+
+    public String getDisplayValue() {
+        if (value == NIL.getValue()) {
+            return "Nil";
+        }
+        else if (value == DOUBLENIL.getValue()) {
+            return "Dbl. Nil";
+        }
+        return "" + value;
     }
 
     public static BidType findBidType(String buttonText) {

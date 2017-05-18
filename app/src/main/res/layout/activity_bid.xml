@@ -4,7 +4,7 @@ xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="fill_parent"
 android:layout_height="fill_parent"
 android:orientation="horizontal"
-tools:context=".BidActivity">
+tools:context=".bid.BidActivity">
 
 <ImageView
     android:id="@+id/imageView1"
